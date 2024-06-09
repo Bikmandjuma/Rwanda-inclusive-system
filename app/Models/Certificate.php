@@ -15,6 +15,6 @@ class Certificate extends Model
     ];
 
     public function get_User_id(){
-        $this->hasMany('App\Models\User','UserId');
+        return $this->hasMany('App\Models\User','UserId');
     }
 }
