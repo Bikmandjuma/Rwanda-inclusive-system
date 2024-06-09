@@ -35,4 +35,9 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('information',[AdminController::class,'my_info'])->name('get_info');
     Route::get('profile',[AdminController::class,'my_profile'])->name('get_profile');
     Route::post('post_profile',[AdminController::class,'post_profile'])->name('post_profile');
+    Route::get('create/course',[AdminController::class,'create_course'])->name('create-course');
+    Route::post('post_course',[AdminController::class,'post_course'])->name('post_course');
+    Route::get('create/module/{id}',[AdminController::class,'create_module'])->name('create-module');
+    Route::post('post_module/{id}',[AdminController::class,'post_module'])->name('post_module');
+    Route::get('create_lesson/{id}',[AdminController::class,'create_lesson'])->name('create-lesson');
 });

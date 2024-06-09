@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\SheikhPartialRegistration;
 use App\Models\Sheikh;
+use paginate;
+use App\Models\Course;
+use App\Models\Module;
 use App\Models\Admin;
 use App\Models\Content;
 use Illuminate\Support\Facades\DB;
@@ -181,6 +184,58 @@ class AdminController extends Controller
         }
 
         return redirect()->back()->with('image_added','Profile added well !');
+    }
+
+    //create course
+    public function create_course(){
+        $course_data=Course::paginate(5);
+        $course_data_count=collect(Course::all())->count();
+        return view('users.admin.create_course',compact('course_data','course_data_count'));
+    }
+
+    public function post_course(Request $request){
+        $this->validate($request,[
+            'course_name' => 'required|string|unique:courses',
+            'description' => 'required|string',
+        ]);
+
+        $course=new Course;
+        $course->course_name = $request->course_name;
+        $course->description = $request->description;
+        $course->save();
+
+        return redirect()->back()->with('data_added','Course added well');
+    }
+
+    public function create_module($id){
+        $course_id=Crypt::decrypt($id);
+        $course_name=Course::all()->where('id',$course_id)->select('course_name');
+
+        foreach ($course_name as $key => $value) {
+            $course_og_name=$value['course_name'];
+        }
+
+        $module_data=Module::paginate(5);
+        $module_data_count=collect(Module::all())->count();
+        return view('users.admin.create_module',compact('course_og_name','module_data','module_data_count','course_id'));
+
+    }
+
+    public function post_module(Request $request,$id){
+        $this->validate($request,[
+            'module_name' => 'required|string',
+            'module_content' => 'required|string',
+        ]);
+
+        $course_id=$id;
+        
+        $module = new Module;
+        $module -> course_id = $course_id;
+        $module -> module_name = $request->module_name;
+        $module -> content = $request->module_content;
+        $module->save();
+
+        return redirect()->back()->with('data_added','Module added well');
     }
 
 }
