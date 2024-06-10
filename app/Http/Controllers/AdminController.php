@@ -249,6 +249,7 @@ class AdminController extends Controller
 
         $lesson_data=Lesson::paginate(5);
         $lesson_data_count=collect(Lesson::all())->count();
+
         return view('users.admin.create_lesson',compact('module_og_name','lesson_data','lesson_data_count','module_id'));
     }
 
@@ -267,6 +268,18 @@ class AdminController extends Controller
         $lesson->save();
 
         return redirect()->back()->with('data_added','Lesson added well');
+    }
+
+    public function get_all_courses($id){
+        $lesson_id=Crypt::decrypt($id);
+        $data= DB::table('courses')
+            ->join('modules', 'courses.id', '=', 'modules.course_id')
+            ->join('lessons', 'modules.id', '=', 'lessons.module_id')
+            ->select('courses.*', 'courses.course_name', 'modules.module_name','lessons.lesson_name')
+            ->where(['lessons.id'=>$lesson_id])
+            ->get();
+
+        return view('users.admin.course_data',compact('data'));
     }
 
 }

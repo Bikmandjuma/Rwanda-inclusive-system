@@ -41,4 +41,5 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::post('post_module/{id}',[AdminController::class,'post_module'])->name('post_module');
     Route::get('create_lesson/{id}',[AdminController::class,'create_lesson'])->name('create-lesson');
     Route::post('post_lesson/{id}',[AdminController::class,'post_lesson'])->name('post_lesson');
+    Route::get('get_all_courses/{id}',[AdminController::class,'get_all_courses'])->name('get_all_courses');
 });

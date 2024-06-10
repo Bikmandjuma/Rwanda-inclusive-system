@@ -11,11 +11,49 @@
 
                 <br>
 
-                <div class="row">
+                        <div class="row">
+                            <div class="col-md-4 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                <h4 class="card-title text-center">Add lesson details</h4>
+                                @if($errors->any())
+                                    <ul class="alert alert-danger" id="msg_error">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                    </ul>
+                                @endif
 
-                        
+                                @if(session('data_added'))
+                                    <li class="alert alert-info text-center" id="msg_error">
+                                        {{ session('data_added') }}
+                                    </li>
+                                @endif
+                                
+                                <form class="forms-sample" action="{{ route('post_lesson',$module_id) }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Module name</label>
+                                        <input type="text" class="form-control" name="module_id" value="{{ $module_og_name }}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Lesson name</label>
+                                        <input type="text" class="form-control" name="lesson_name" value="{{ old('lesson_name') }}" placeholder="Enter lesson name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Lesson content</label>
+                                        <textarea type="text" class="form-control" rowspan="10" name="lesson_content" placeholder="Enter lesson content . . . "  value="{{old('lesson_content')}}"></textarea>
+                                    </div>
+                                   
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mr-2">Submit lesson</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
                             <!-- <div class="col-md-1 grid-margin stretch-card"></div> -->
-                            <div class="col-md-12 grid-margin stretch-card">
+                            <div class="col-md-8 grid-margin stretch-card">
                                 
                             <div class="card">
                                     <div class="card-body">
@@ -30,20 +68,15 @@
                                                 No
                                             </th>
                                             <th>
-                                                Course
+                                                Lesson_name
                                             </th>
                                             <th>
-                                                Module
+                                                Lesson_content
                                             </th>
                                             
                                             <th>
-                                                Lesson
+                                                Action
                                             </th>
-
-                                            <th>
-                                                View
-                                            </th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -71,7 +104,7 @@
                                                 @endphp
                                                 </td>
                                                 <td class="py-1">
-                                                    ....                            
+                                                <a href="{{ route('get_all_courses',Crypt::encrypt($data->id)) }}" class="btn btn-info">View data</a>
                                                 </td>
                                             </tr>
                                             @endforeach
