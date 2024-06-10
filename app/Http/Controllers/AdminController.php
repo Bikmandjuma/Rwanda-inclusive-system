@@ -13,6 +13,7 @@ use paginate;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\Admin;
+use App\Models\Lesson;
 use App\Models\Content;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SheikhVerifyEmail;
@@ -236,6 +237,36 @@ class AdminController extends Controller
         $module->save();
 
         return redirect()->back()->with('data_added','Module added well');
+    }
+
+    public function create_lesson($id){
+        $module_id=Crypt::decrypt($id);
+        $module_name=Module::all()->where('id',$module_id)->select('module_name');
+
+        foreach ($module_name as $key => $value) {
+            $module_og_name=$value['module_name'];
+        }
+
+        $lesson_data=Lesson::paginate(5);
+        $lesson_data_count=collect(Lesson::all())->count();
+        return view('users.admin.create_lesson',compact('module_og_name','lesson_data','lesson_data_count','module_id'));
+    }
+
+    public function post_lesson(Request $request,$id){
+        $this->validate($request,[
+            'lesson_name' => 'required|string',
+            'lesson_content' => 'required|string',
+        ]);
+
+        $module_id=$id;
+        
+        $lesson = new Lesson;
+        $lesson -> module_id = $module_id;
+        $lesson -> lesson_name = $request->lesson_name;
+        $lesson -> content = $request->lesson_content;
+        $lesson->save();
+
+        return redirect()->back()->with('data_added','Lesson added well');
     }
 
 }
