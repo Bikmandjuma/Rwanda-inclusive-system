@@ -185,15 +185,33 @@ class AdminController extends Controller
 
         $data=Admin::find($admin_id);
 
-        // dd($data);
+        // // dd($data);
+        // foreach ($data as $key => $value) {
+        //     if($request->hasFile('image')){
+        //         $file= $request->file('image');
+        //         $filename= date('YmdHi').$file->getClientOriginalName();
+        //         $file-> move(public_path('style/images/admin'), $filename);
+        //         DB::table('admins')->where('id',$admin_id)->update(['image' => $current_imgage,'image' => $filename]);
+        //     }
+        // }
         foreach ($data as $key => $value) {
             if($request->hasFile('image')){
-                $file= $request->file('image');
-                $filename= date('YmdHi').$file->getClientOriginalName();
-                $file-> move(public_path('style/images/admin'), $filename);
-                DB::table('admins')->where('id',$admin_id)->update(['image' => $current_imgage,'image' => $filename]);
+                $file = $request->file('image');
+                if ($file->isValid()) {
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    try {
+                        $file->move(public_path('style/images/admin'), $filename);
+                        DB::table('admins')->where('id', $admin_id)->update(['image' => $filename]);
+                        echo "File uploaded successfully.";
+                    } catch (\Exception $e) {
+                        echo "Failed to upload file: " . $e->getMessage();
+                    }
+                } else {
+                    echo "The file is not valid.";
+                }
             }
         }
+        
 
         return redirect()->back()->with('image_added','Profile added well !');
     }
@@ -335,13 +353,6 @@ class AdminController extends Controller
             
 
         $count_exam_marks=collect('marks_data')->count();
-
-        $question_count_id= DB::table('exams')
-            ->join('questions', 'exams.id', '=', 'questions.exam_id')
-            ->select('questions.*', 'questions.id')
-            ->sum('id');
-
-        dd($question_count_id);
         
         return view('users.admin.add_view_exam',compact('count_exam_marks','marks_data'));
         

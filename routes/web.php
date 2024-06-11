@@ -15,7 +15,9 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return view('auth.login');
+
 });
 
 Route::get('login',[AdminController::class,'login_form'])->name('login.form');
