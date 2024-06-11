@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\SheikhPartialRegistration;
-use App\Models\Sheikh;
 use paginate;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\Admin;
+use App\Models\Exam;
 use App\Models\Lesson;
 use App\Models\Content;
 use Illuminate\Support\Facades\DB;
@@ -275,11 +275,44 @@ class AdminController extends Controller
         $data= DB::table('courses')
             ->join('modules', 'courses.id', '=', 'modules.course_id')
             ->join('lessons', 'modules.id', '=', 'lessons.module_id')
-            ->select('courses.*', 'courses.course_name', 'modules.module_name','lessons.lesson_name')
+            ->select('courses.*', 'courses.id','courses.course_name', 'modules.module_name','lessons.lesson_name')
             ->where(['lessons.id'=>$lesson_id])
             ->get();
 
-        return view('users.admin.course_data',compact('data'));
+        foreach ($data as $key => $value) {
+            $course_id=$value->id;
+            $course_name=$value->course_name;
+        }
+
+        $exam_marks=Exam::all()->where('course_id',$course_id);
+        
+        $count_exam_marks=collect($exam_marks)->count();
+
+        $marks_data= DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->select('courses.*', 'courses.id','courses.course_name', 'exams.exam_name','exams.total_marks')
+            ->where(['courses.id'=>$course_id])
+            ->get();
+
+        return view('users.admin.course_data',compact('data','count_exam_marks','course_name','course_id','marks_data'));
+    }
+
+    public function post_exam_marks(Request $request,$id){
+        $this->validate($request,[
+            'exam_name' => 'required',
+            'total_marks' => 'required',
+        ]);
+
+        $course_id=$id;
+
+        $marks=new Exam;
+        $marks->course_id = $course_id;
+        $marks->exam_name = $request->exam_name;
+        $marks->total_marks = $request->total_marks;
+        $marks->save();
+
+        return redirect()->back();
+
     }
 
 }
