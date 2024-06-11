@@ -129,9 +129,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
-                                            {{ $count=1 }}
-
+                                            @php
+                                                $count=1
+                                            @endphp
                                             @foreach($marks_data as $data)
                                             <tr>
                                                 <td class="py-3">

@@ -315,4 +315,22 @@ class AdminController extends Controller
 
     }
 
+    public function add_view_exam(){
+        $marks_data= DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->select('exams.*', 'exams.id as exam_id','courses.id as course_id','courses.course_name', 'exams.exam_name','exams.total_marks')
+            // ->where(['courses.id'=>$course_id])
+            ->get('id');
+            
+
+        $count_exam_marks=collect('marks_data')->count();
+        
+        return view('users.admin.add_view_exam',compact('count_exam_marks','marks_data'));
+        
+    }
+
+    public function get_question($id,$name){
+        return view('users.admin.get_question');
+    }
+
 }

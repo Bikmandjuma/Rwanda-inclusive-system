@@ -142,6 +142,19 @@
             </div>
           </li>
           <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#examlist" aria-expanded="false" aria-controls="ui-basic">
+              <i class="mdi mdi-account-multiple" style='font-size:20px;'></i>&nbsp;
+              <span class="menu-title">Manage Exam</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="examlist">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{ route('add_view_exam')}}">Add & View Exam</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#student" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-account-multiple" style='font-size:20px;'></i>&nbsp;
               <span class="menu-title">Manage Student</span>
