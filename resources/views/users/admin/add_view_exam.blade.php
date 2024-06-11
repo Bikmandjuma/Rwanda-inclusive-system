@@ -61,7 +61,7 @@
                                                 </td>
 
                                                 <td class="py-1">
-                                                    <a class="btn btn-info" href="{{ url('admin/get_question')}}/{{Crypt::encrypt('$data->exam_id')}}/{{Crypt::encrypt('$data->course_name')}}" >View question</a>
+                                                    <a class="btn btn-info" href="{{ url('admin/get_question')}}/{{$data->exam_id}}/{{$data->course_name}}" >View question</a>
                                                 </td>
 
                                             </tr>

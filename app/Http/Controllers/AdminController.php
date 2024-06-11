@@ -13,7 +13,11 @@ use App\Models\Course;
 use App\Models\Module;
 use App\Models\Admin;
 use App\Models\Exam;
+use App\Models\Question;
+use App\Models\User;
+use App\Models\Result;
 use App\Models\Lesson;
+use App\Models\Certificate;
 use App\Models\Content;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SheikhVerifyEmail;
@@ -47,7 +51,14 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        return view('users.admin.home');
+        $users_numbers=collect(User::all())->count();
+        $Exam_numbers=collect(Exam::all())->count();
+        $Content_numbers=collect(Content::all())->count();
+        $Course_numbers=collect(Course::all())->count();
+        $Certificate_numbers=collect(Certificate::all())->count();
+        $Result_numbers=collect(Result::all())->count();
+
+        return view('users.admin.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers'));
     }
 
     public function forgot_password(){
@@ -324,13 +335,48 @@ class AdminController extends Controller
             
 
         $count_exam_marks=collect('marks_data')->count();
+
+        $question_count_id= DB::table('exams')
+            ->join('questions', 'exams.id', '=', 'questions.exam_id')
+            ->select('questions.*', 'questions.id')
+            ->sum('id');
+
+        dd($question_count_id);
         
         return view('users.admin.add_view_exam',compact('count_exam_marks','marks_data'));
         
     }
 
     public function get_question($id,$name){
-        return view('users.admin.get_question');
+        $course_name=$name;
+        $exam_id=$id;
+
+        $question_data=Question::all()->where('exam_id',$exam_id);
+
+        $count_question_data = collect($question_data)->count();
+
+        $marks_counts= DB::table('exams')
+            ->join('questions', 'exams.id', '=', 'questions.exam_id')
+            ->select('exams.*', 'questions.marks')
+            ->where(['questions.exam_id'=>$exam_id])
+            ->sum('marks');
+
+        return view('users.admin.get_question',compact('question_data','exam_id','course_name','count_question_data','marks_counts'));
+    }
+    
+
+    public function post_questions(Request $request,$id){
+        $exam_id=$id;
+
+       $question=new Question;
+       $question->exam_id=$exam_id;
+       $question->question_text=$request->question_text;
+       $question->question_type=$request->question_type;
+       $question->marks=$request->marks;
+       $question->save();
+
+       return redirect()->back()->with('data_added','Question added well !');
+
     }
 
 }
