@@ -376,18 +376,37 @@ class AdminController extends Controller
     }
     
 
-    public function post_questions(Request $request,$id){
-        $exam_id=$id;
-
-       $question=new Question;
-       $question->exam_id=$exam_id;
-       $question->question_text=$request->question_text;
-       $question->question_type=$request->question_type;
-       $question->marks=$request->marks;
-       $question->save();
-
-       return redirect()->back()->with('data_added','Question added well !');
-
+    public function post_questions(Request $request, $id) {
+        $exam_id = $id;
+    
+        $current_marks_counts = DB::table('exams')
+            ->join('questions', 'exams.id', '=', 'questions.exam_id')
+            ->where('questions.exam_id', $exam_id)
+            ->sum('questions.marks');
+    
+        $total_marks_counts = DB::table('exams')
+            ->where('id', $exam_id)
+            ->value('total_marks'); // Use value instead of get to get a single value
+    
+        $text = $request->question_text;
+        $type = $request->question_type;
+        $marks = $request->marks;
+    
+        $new_marks = $current_marks_counts + $marks;
+        $marks_remain = $total_marks_counts - $current_marks_counts; // Correct calculation
+    
+        if ($new_marks > $total_marks_counts) {
+            return redirect()->back()->with('error_higher_amount', 'Only ' . $marks_remain . ' marks remain to reach the total of ' . $total_marks_counts . '!');
+        } else {
+            $question = new Question;
+            $question->exam_id = $exam_id;
+            $question->question_text = $text;
+            $question->question_type = $type;
+            $question->marks = $marks;
+            $question->save();
+    
+            return redirect()->back()->with('data_added', 'Question added successfully!');
+        }
     }
 
 }

@@ -11,13 +11,19 @@
 
                 <br>
 
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            @if(session('error_higher_amount'))
+                                <li class="alert alert-danger">{{ session('error_higher_amount') }}</li>
+                            @endif
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+
             <div class="row" id="marks_div_id">
                 <div class="col-md-2"></div>   
                 <div class="col-md-8 grid-margin stretch-card">    
-
-                    <!-- @if(session('data_added'))
-                        <li class="alert alert-info text-center">{{ session('data_added') }}</li>
-                    @endif -->
                     
                     <div class="card">
                         <div class="card-title text-center">
@@ -65,7 +71,7 @@
                                                     {{ $data->marks }}
                                                 </td>
                                                 <td class="py-1">
-                                                    <a class="btn btn-danger" href="">No option added yet</a>
+                                                    <a class="btn btn-danger" href="{{url('get_option')}}/{{ Crypt::encrypt('$data->id') }}">No option added yet</a>
                                                 </td>
 
                                             </tr>
