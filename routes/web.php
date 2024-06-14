@@ -48,4 +48,6 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('add_view_exam',[AdminController::class,'add_view_exam'])->name('add_view_exam');
     Route::get('get_question/{id}/{name}',[AdminController::class,'get_question'])->name('get_question');
     Route::post('post_question/{id}',[AdminController::class,'post_questions'])->name('post_questions');
+    Route::get('get_option/{id}',[AdminController::class,'get_options'])->name('get_options');
+    Route::post('post_option/{id}',[AdminController::class,'post_options'])->name('post_option');
 });

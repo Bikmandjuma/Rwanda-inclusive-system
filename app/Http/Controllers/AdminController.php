@@ -13,6 +13,7 @@ use App\Models\Course;
 use App\Models\Module;
 use App\Models\Admin;
 use App\Models\Exam;
+use App\Models\Option;
 use App\Models\Question;
 use App\Models\User;
 use App\Models\Result;
@@ -405,8 +406,51 @@ class AdminController extends Controller
             $question->marks = $marks;
             $question->save();
     
-            return redirect()->back()->with('data_added', 'Question added successfully!');
+            return redirect()->back()->with(['data_added' => 'Question added successfully!', 'total_marks' => $current_marks_counts,'marks_total_counts' => $total_marks_counts]);
         }
+    }
+
+    public function get_options($id){
+        $option_data=Option::all();
+        $count_option_data=collect('option_data')->count();
+
+        $question_id=$id;
+        
+        $question_name=Question::all()->where("id",$id);
+        foreach ($question_name as $key => $value) {
+            $quest_name=$value->question_text;
+        }
+
+        $count_option_id=collect(Option::all()->where("question_id",$id))->count();
+
+        return view('users.admin.get_options',compact('option_data','count_option_data','quest_name','question_id','count_option_id'));
+    }
+
+    public function post_options(Request $request,$id){
+        $option_Data = $request->validate([
+            'option_text' => 'required|min:1',
+            'option_text.*' => 'required|string|max:255',
+            'choice' => 'required|min:1',
+            'choice.*' => 'required|string|max:255',
+        ],[
+            'option_text.*.required' => 'Option text field is required !',
+            'choice.*.required' => 'Choice field is required !',
+        ]);
+
+        
+        $question_id=$id;
+
+        foreach ($option_Data['option_text'] as $key => $value) {
+            
+            $data=new Option;
+            $data->question_id = $question_id;
+            $data->option_text = $value;
+            $data->is_correct = $option_Data['choice'][$key];
+            $data->save();
+        }
+
+        return redirect()->back()->with('success', 'Options submitted successfully!');
+    
     }
 
 }

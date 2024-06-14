@@ -21,6 +21,8 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="{{URL::to('/')}}/style/images/logo-mini.svg" />
   <link rel="stylesheet" href="{{URL::to('/')}}/style/vendors/mdi/css/materialdesignicons.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  
   <style>
     .icons i{
       margin-top:5px;

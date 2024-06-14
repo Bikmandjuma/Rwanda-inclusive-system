@@ -15,20 +15,20 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             @if(session('error_higher_amount'))
-                                <li class="alert alert-danger">{{ session('error_higher_amount') }}</li>
+                                <li class="alert alert-danger" id="error_msg">{{ session('error_higher_amount') }}</li>
                             @endif
                         </div>
                         <div class="col-md-4"></div>
                     </div>
 
             <div class="row" id="marks_div_id">
-                <div class="col-md-2"></div>   
-                <div class="col-md-8 grid-margin stretch-card">    
+                <!-- <div class="col-md-2"></div>    -->
+                <div class="col-md-12 grid-margin stretch-card">    
                     
                     <div class="card">
                         <div class="card-title text-center">
                             Examination question of <b class="text-primary">{{ $course_name }}</b>
-                            <button class="btn btn-info float-right" data-toggle="modal" data-target="#Modalquesdtion">Add new question</button>
+                            <button class="btn btn-info float-right" data-toggle="modal" data-target="#Modalquesdtion" id="add_btn_id">Add new question</button>
                         </div>
                             <div class="card-body" style="overflow:auto;">
                                 <table class="table table-striped">
@@ -71,9 +71,8 @@
                                                     {{ $data->marks }}
                                                 </td>
                                                 <td class="py-1">
-                                                    <a class="btn btn-danger" href="{{url('get_option')}}/{{ Crypt::encrypt('$data->id') }}">No option added yet</a>
+                                                    <a class="btn btn-danger" href="{{url('admin/get_option')}}/{{ $data->id }}">No option added yet</a>
                                                 </td>
-
                                             </tr>
                                             
                                             @endforeach
@@ -99,11 +98,19 @@
                                 </div>
                         </div>
                     </div>
-                    <div class="col-md-2"></div> 
+                    <!-- <div class="col-md-2"></div>  -->
                 </div>
 
             </div>
         </div>
+
+        <!-- @if(session('marks_total_counts') == 100)
+            <Style>
+                #add_btn_id{
+                    display:none;
+                }
+            </style>
+        @endif -->
 
 
     <!--start modal of exam marks-->
@@ -141,5 +148,12 @@
             </div>
           </div>
     <!--end modal of exam marks-->
+
+    <script>
+        setTimeout(() => {
+            var msg=document.getElementById('error_msg');
+            msg.style.display="none";
+        }, 5000);
+    </script>
 
 @endsection
