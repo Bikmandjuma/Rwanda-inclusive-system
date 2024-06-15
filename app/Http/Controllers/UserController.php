@@ -1,9 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+use App\Models\SheikhPartialRegistration;
+use paginate;
+use App\Models\Course;
+use App\Models\Module;
+use App\Models\Admin;
+use App\Models\Exam;
+use App\Models\Option;
+use App\Models\Question;
+use App\Models\User;
+use App\Models\Result;
+use App\Models\Lesson;
+use App\Models\Certificate;
+use App\Models\Content;
 use Illuminate\Support\Facades\DB;
+use App\Mail\SheikhVerifyEmail;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -55,5 +73,22 @@ class UserController extends Controller
         ]);
 
         return redirect()->back()->with("register_well","Registered Successfully ! , You can login now");
+    }
+
+    public function logout(){
+        Auth::guard('user')->logout();
+        return redirect()->route('login.form');
+    }
+
+    public function dashboard()
+    {
+        $users_numbers=collect(User::all())->count();
+        $Exam_numbers=collect(Exam::all())->count();
+        $Content_numbers=collect(Content::all())->count();
+        $Course_numbers=collect(Course::all())->count();
+        $Certificate_numbers=collect(Certificate::all())->count();
+        $Result_numbers=collect(Result::all())->count();
+
+        return view('users.student.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers'));
     }
 }

@@ -51,3 +51,9 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('get_option/{id}',[AdminController::class,'get_options'])->name('get_options');
     Route::post('post_option/{id}',[AdminController::class,'post_options'])->name('post_option');
 });
+
+//routes codes of user/students
+Route::group(['prefix'=>'user','middleware'=>'user'],function(){
+    Route::get('logout',[UserController::class,'logout'])->name('logout');
+    Route::get('home',[UserController::class,'dashboard'])->name('user_dashboard');
+});

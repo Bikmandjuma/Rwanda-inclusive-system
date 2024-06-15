@@ -39,14 +39,6 @@
                         </ul>
                     </div>
                 @endif
-
-                @if (session('test'))
-                    <div>
-                        <ul class="alert alert-secondary" id="disable_message">
-                            <li>{{ session('test') }}</li>
-                        </ul>
-                    </div>
-                @endif
        
                 <form class="pt-3" action="{{route('login-functionality')}}" method="POST">
                 @csrf
