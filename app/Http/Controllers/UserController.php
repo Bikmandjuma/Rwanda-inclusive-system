@@ -173,6 +173,15 @@ class UserController extends Controller
     }
 
     public function take_exam($id){
+        $exam_id=$id;
+        $exam_content= DB::table('exams')
+        ->join('questions', 'exams.id', '=', 'questions.exam_id')
+        // ->join('options', 'questions.id', '=', 'options.question_id')  
+        // ->select('exams.*', 'exams.id')
+        ->where(['questions.exam_id' => $exam_id])
+        ->get();
+        // dd($exam_content);
+
         return view('users.student.take_exam');
     }
 
