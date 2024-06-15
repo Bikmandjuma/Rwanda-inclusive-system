@@ -24,7 +24,7 @@
     <br>
     <ul style="list-style-type:numeric;">
         <li>
-            <div class="row" onclick='window.location.href=""'>
+            <div class="row" onclick='window.location.href="{{ route("get_exam_content") }}"'>
                 <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                     <div class="card" id="card_id">
                         <!-- <div class="card-title"></div> -->
@@ -43,11 +43,11 @@
         </li>
         <br>
         <li>
-        <div class="row" onclick='window.location.href=""'>
+        <div class="row" onclick='window.location.href="{{ route("get_learn_content") }}"'>
                 <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                     <div class="card" id="card_id">
                         <!-- <div class="card-title"></div> -->
-                        <div class="card-header bg-info text-white"><string><h3>Learn New Content</h3></string></div>
+                        <div class="card-header bg-secondary text-white"><string><h3>Learn New Content</h3></string></div>
                         <div class="card-body">
                             <ul>
                                 <li>Dive into new subjects and expand your knowledge with our extensive written materials.</li>
@@ -61,10 +61,10 @@
         </li>
         <br>
         <li>
-        <div class="row" onclick='window.location.href=""'>
+        <div class="row" onclick='window.location.href="{{ route("get_lecture_video") }}"'>
                 <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                     <div class="card" id="card_id">
-                        <div class="card-header bg-info text-white"><string><h3>Watch Lecture Videos</h3></string></div>
+                        <div class="card-header bg-success text-white"><string><h3>Watch Lecture Videos</h3></string></div>
                         <div class="card-body">
                             <ul>
                                 <li>Visual learners can benefit from our library of lecture videos, which cover a wide range of subjects.</li>

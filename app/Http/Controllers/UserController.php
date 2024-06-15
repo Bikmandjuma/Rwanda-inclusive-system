@@ -153,4 +153,27 @@ class UserController extends Controller
     public function get_content(){
         return view('users.student.content');
     }
+
+    public function get_exam_content(){
+        // $course_content=Exam::paginate(8);
+        $course_content= DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->select('courses.*', 'exams.id','courses.course_name', 'exams.exam_name','exams.total_marks')
+            ->paginate(8);
+            // dd($course_content);
+        return view('users.student.exam_content',compact('course_content'));
+    }
+
+    public function get_learn_content(){
+        return view('users.student.learn_content');
+    }
+
+    public function get_lecture_video(){
+        return view('users.student.lecture_video');
+    }
+
+    public function take_exam($id){
+        return view('users.student.take_exam');
+    }
+
 }

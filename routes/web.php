@@ -62,5 +62,8 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::post('submit_password_management',[UserController::class,'post_pswd_form'])->name('post_password');
     Route::post('post_profile',[UserController::class,'post_profile'])->name('post_profile');
     Route::get('content',[UserController::class,'get_content'])->name('get_content');
-    Route::get('exa_content',[UserController::class,'get_exam_content'])->name('get_exam_content');
+    Route::get('exam_content',[UserController::class,'get_exam_content'])->name('get_exam_content');
+    Route::get('learn_content',[UserController::class,'get_learn_content'])->name('get_learn_content');
+    Route::get('lecture_video',[UserController::class,'get_lecture_video'])->name('get_lecture_video');
+    Route::get('take_exam/{id}',[UserController::class,'take_exam'])->name('take_exam');
 });
