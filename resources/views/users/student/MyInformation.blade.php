@@ -1,4 +1,4 @@
-@extends('users.admin.cover')
+@extends('users.student.cover')
 @section('content')
 
 @endsection

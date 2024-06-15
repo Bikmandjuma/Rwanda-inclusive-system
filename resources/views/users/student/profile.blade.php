@@ -1,4 +1,4 @@
-@extends('users.admin.cover')
+@extends('users.student.cover')
 @section('content')
 <style>
 img:hover{
@@ -61,9 +61,9 @@ img:hover{
                        
                         <div class="card card-primary card-outline" style="width: 80%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
                           <div class="card-header text-center" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"><h4 style="font-family:initial;">Profile picture</h4></div>
-                          <img src="{{ URL::to('/') }}/style/images/admin/{{ auth()->guard('admin')->user()->image }}">
+                          <img src="{{ URL::to('/') }}/style/images/user/{{ auth()->guard('user')->user()->image }}">
                           <div class="containers">
-                            <h4><b>{{ auth()->guard('admin')->user()->firstname }} {{ auth()->guard('admin')->user()->lastname }}</b></h4> 
+                            <h4><b>{{ auth()->guard('user')->user()->firstname }} {{ auth()->guard('user')->user()->lastname }}</b></h4> 
                             <button class="btn btn-info" data-toggle="modal" data-target="#ProfileModal"><i class="mdi mdi-file-image"></i>&nbsp;Edit</button>
                           </div>
                         </div>
@@ -88,7 +88,7 @@ img:hover{
                                   @csrf
                                   <!-- <div class="row">
                                     <div class="col-md-6"> -->
-                                      <img id="blah" style="width:130px;height:150px;" src="{{ URL::to('/') }}/style/images/admin/{{ auth()->guard('admin')->user()->image }}" /><br>
+                                      <img id="blah" style="width:130px;height:150px;" src="{{ URL::to('/') }}/style/images/user/{{ auth()->guard('user')->user()->image }}" /><br>
                                     <!-- </div>
                                     <div class="col-md-6">
              -->                          

@@ -7,8 +7,6 @@
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('user')->user()->firstname}} {{ Auth::guard('user')->user()->lastname}}</span></h3>
                 </div>
-                
-
               </div>
             </div>
           </div>
@@ -19,7 +17,6 @@
                     <div class="card-body">
                       <p class="mb-4">All users</p>
                       <p class="fs-30 mb-2">{{ $users_numbers }}</p>
-                      <!-- <p>10.00% (30 days)</p> -->
                     </div>
                   </div>
                 </div>
@@ -78,7 +75,18 @@
                 </div>
 
               </div>
-         
-          
-          
+
+              <br>
+
+              <div class="row">
+                <div class="col-3 col-xl-3 mb-4 mb-xl-0"></div>
+                <div class="col-6 col-xl-6 mb-4 mb-xl-0">
+                  <div class="card">
+                    <div class="card-body" onclick="window.location.href='{{route('get_content')}}'">
+                      Choose your preferred method of learning or mix and match to suit your style. At RdaiS, we make education accessible, flexible, and effective for everyone. Start your learning journey today!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3 col-xl-3 mb-4 mb-xl-0"></div>
+            </div>                   
 @endsection

@@ -186,15 +186,6 @@ class AdminController extends Controller
 
         $data=Admin::find($admin_id);
 
-        // // dd($data);
-        // foreach ($data as $key => $value) {
-        //     if($request->hasFile('image')){
-        //         $file= $request->file('image');
-        //         $filename= date('YmdHi').$file->getClientOriginalName();
-        //         $file-> move(public_path('style/images/admin'), $filename);
-        //         DB::table('admins')->where('id',$admin_id)->update(['image' => $current_imgage,'image' => $filename]);
-        //     }
-        // }
         foreach ($data as $key => $value) {
             if($request->hasFile('image')){
                 $file = $request->file('image');

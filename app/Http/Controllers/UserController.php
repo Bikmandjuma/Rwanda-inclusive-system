@@ -91,4 +91,66 @@ class UserController extends Controller
 
         return view('users.student.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers'));
     }
+
+    public function get_pswd_form(){
+        return view('users.student.pswd_uname');
+    }
+
+    public function my_info(){
+        return view('users.student.MyInformation');
+    }
+
+    public function my_profile(){
+        return view('users.student.profile');
+    }
+
+    public function post_pswd_form(Request $request){
+        $this->validate($request,[
+            'current_password' => 'required|string|exists:admins,password',
+            'new_password' => 'required|string|between:8,32|confirmed',
+            'password_confirmation' => 'required',
+        ],[
+            'new_password.confirmed' => 'new password do not much'
+        ]);
+
+        $current_pswd=$request->current_password;
+        $new_pswd=$request->new_password;
+        $new_pswd_confirm=$request->password_confirmation;
+    }
+
+    public function post_profile(Request $request){
+        $this->validate($request,[
+            'image' => 'required|mimes:jpeg,jpg,png'
+        ]);
+
+        $admin_id=Auth::guard('user')->user()->id;
+        $current_imgage=Auth::guard('user')->user()->image;
+
+        $data=User::find($admin_id);
+
+        foreach ($data as $key => $value) {
+            if($request->hasFile('image')){
+                $file = $request->file('image');
+                if ($file->isValid()) {
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    try {
+                        $file->move(public_path('style/images/user'), $filename);
+                        DB::table('users')->where('id', $admin_id)->update(['image' => $filename]);
+                        echo "File uploaded successfully.";
+                    } catch (\Exception $e) {
+                        echo "Failed to upload file: " . $e->getMessage();
+                    }
+                } else {
+                    echo "The file is not valid.";
+                }
+            }
+        }
+        
+
+        return redirect()->back()->with('image_added','Profile added well !');
+    }
+
+    public function get_content(){
+        return view('users.student.content');
+    }
 }

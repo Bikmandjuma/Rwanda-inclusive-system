@@ -56,4 +56,11 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::get('logout',[UserController::class,'logout'])->name('logout');
     Route::get('home',[UserController::class,'dashboard'])->name('user_dashboard');
+    Route::get('password',[UserController::class,'get_pswd_form'])->name('get_password');
+    Route::get('information',[UserController::class,'my_info'])->name('get_info');
+    Route::get('profile',[UserController::class,'my_profile'])->name('get_profile');
+    Route::post('submit_password_management',[UserController::class,'post_pswd_form'])->name('post_password');
+    Route::post('post_profile',[UserController::class,'post_profile'])->name('post_profile');
+    Route::get('content',[UserController::class,'get_content'])->name('get_content');
+    Route::get('exa_content',[UserController::class,'get_exam_content'])->name('get_exam_content');
 });
