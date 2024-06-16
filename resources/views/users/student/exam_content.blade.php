@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
             <div class="card">
-                <h2 class="font-weight-bold text-center"> <span style="font-size:30px;font-style:san-serif" class="text-primary">Where you can choose your prefer exam:</span></h2>
+                <h2 class="font-weight-bold text-center"> <span style="font-size:30px;font-style:san-serif" class="text-primary">Where you can choose your prefer examination:</span></h2>
             </div>
         </div>
     </div>

@@ -14,6 +14,8 @@ use App\Models\Admin;
 use App\Models\Exam;
 use App\Models\Option;
 use App\Models\Question;
+use App\Models\ExamSubmission;
+use App\Models\Answer;
 use App\Models\User;
 use App\Models\Result;
 use App\Models\Lesson;
@@ -151,7 +153,9 @@ class UserController extends Controller
     }
 
     public function get_content(){
-        return view('users.student.content');
+        $exam_count=collect(Exam::all())->count();
+        $content_count=collect(Content::all())->count();
+        return view('users.student.content',compact('exam_count','content_count'));
     }
 
     public function get_exam_content(){
@@ -174,15 +178,65 @@ class UserController extends Controller
 
     public function take_exam($id){
         $exam_id=$id;
-        $exam_content= DB::table('exams')
-        ->join('questions', 'exams.id', '=', 'questions.exam_id')
+        // $exam_content= DB::table('exams')
+        // ->join('questions', 'exams.id', '=', 'questions.exam_id')
         // ->join('options', 'questions.id', '=', 'options.question_id')  
         // ->select('exams.*', 'exams.id')
-        ->where(['questions.exam_id' => $exam_id])
+        // ->where(['questions.exam_id' => $exam_id])
+        // ->get();
+        $exam_content = Exam::with(['questions.options'])
+        ->where('id', $exam_id)
         ->get();
-        // dd($exam_content);
 
-        return view('users.student.take_exam');
+        return view('users.student.take_exam',compact('exam_content','exam_id'));
+    }
+
+    public function submitExam(Request $request,$id)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'selected_option_*' => 'required|array',
+            'selected_option_*.*' => 'exists:options,id',
+        ]);
+
+        $userId = auth()->guard('user')->user()->id; // Assuming the user is logged in
+        // $examId = $request->input('exam_id'); // Assuming exam_id is passed in the form
+        $examId = $id;
+
+
+        // Loop through each question's selected option
+        foreach ($request->all() as $key => $value) {
+            if (strpos($key, 'selected_option_') !== false) {
+                // Extract question id from the key
+                $questionId = str_replace('selected_option_', '', $key);
+
+                // Create an answer record
+                Answer::create([
+                    'exam_id' => $examId,
+                    'user_id' => $userId,
+                    'question_id' => $questionId,
+                    'selected_option_id' => $value,
+                    'answer_text' => null, // Assuming no text answers in this form submission
+                ]);
+            }
+        }
+
+        ExamSubmission::create([
+            'exam_id' => $examId,
+            'user_id' => $userId
+        ]);
+
+        return redirect()->route('confirm_submit',$examId);
+
+    }
+
+    public function confirmSubmit($id){
+        $exam_id=$id;
+        return view('users.student.confirm_submit',compact('exam_id'));
+    }
+
+    public function post_confirm_submission(Request $request,$id){
+        
     }
 
 }

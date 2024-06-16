@@ -28,7 +28,7 @@
                 <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                     <div class="card" id="card_id">
                         <!-- <div class="card-title"></div> -->
-                        <div class="card-header bg-info text-white"><string><h3>Take an Exam</h3></string></div>
+                        <div class="card-header bg-info text-white"><string><h3>Take an Exam</h3></string><span class="float-right" style="margin-top:-30px;"><b>Exams : {{ $exam_count }}</b></span></div>
                         <div class="card-body">
                             <ul>
                                 
@@ -47,7 +47,7 @@
                 <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                     <div class="card" id="card_id">
                         <!-- <div class="card-title"></div> -->
-                        <div class="card-header bg-secondary text-white"><string><h3>Learn New Content</h3></string></div>
+                        <div class="card-header bg-secondary text-white"><string><h3>Learn New Content</h3></string> <span class="float-right" style="margin-top:-30px;"><b>Contents : {{ $content_count }}</b></span></div>
                         <div class="card-body">
                             <ul>
                                 <li>Dive into new subjects and expand your knowledge with our extensive written materials.</li>

@@ -66,4 +66,7 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::get('learn_content',[UserController::class,'get_learn_content'])->name('get_learn_content');
     Route::get('lecture_video',[UserController::class,'get_lecture_video'])->name('get_lecture_video');
     Route::get('take_exam/{id}',[UserController::class,'take_exam'])->name('take_exam');
+    Route::post('post_take_exam/{id}',[UserController::class,'submitExam'])->name('post_take_exam');
+    Route::get('Confirm_submit/{id}',[UserController::class,'confirmSubmit'])->name('confirm_submit');
+    Route::post('post_confirm_submission/{id}',[UserController::class,'post_confirm_submission'])->name('post_confirm_submission');
 });
