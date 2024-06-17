@@ -35,8 +35,8 @@ class AdminController extends Controller
     //todo: admin login functionality
     public function login_functionality(Request $request){
         $request->validate([
-            'username'=>'required|email',
-            'password'=>'required',
+            'username'=>'required|string',
+            'password'=>'required|string',
         ]);
 
         if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password])) {

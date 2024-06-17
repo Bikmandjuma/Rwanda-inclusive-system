@@ -43,7 +43,7 @@
                 <form class="pt-3" action="{{route('login-functionality')}}" method="POST">
                 @csrf
                 <div class="form-group">
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="username" value="{{old('username')}}" aufocus>
+                  <input type="text" class="form-control" placeholder="Enter email" name="username" value="{{old('username')}}" aufocus>
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control" id="pswd_id" name="password" placeholder="Enter password">

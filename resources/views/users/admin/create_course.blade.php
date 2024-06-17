@@ -88,7 +88,7 @@
                                                 <td class="py-1">
                                                 {{ $data->course_name }}
                                                 </td>
-                                                <td class="py-1">
+                                                <td class="py-1" title="{{$data->description}}">
                                                 @php
                                                     $descr=strlen($data->description);
                                                     if($descr > 50){

@@ -31,6 +31,11 @@
     webkit::-scrollbar{
      overflow: hidden; 
     }
+
+    #card_id{
+      box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
   </style>
 </head>
 <body>
@@ -48,11 +53,11 @@
           <li><h3 class="mt-2">Student panel</h3></li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-settings d-none d-lg-flex">
+          <!-- <li class="nav-item nav-settings d-none d-lg-flex">
             <a class="nav-link" href="#">
               <i>{{ Auth::guard('user')->user()->firstname}}</i>
             </a>
-          </li>
+          </li> -->
 
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">

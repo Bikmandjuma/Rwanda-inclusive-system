@@ -16,6 +16,7 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\ExamSubmission;
 use App\Models\Answer;
+use App\Models\UserCourse;
 use App\Models\User;
 use App\Models\Result;
 use App\Models\Lesson;
@@ -35,13 +36,13 @@ class UserController extends Controller
         $this->validate($request,[
             'firstname'=>'required|string|',
             'lastname'=>'required|string|',
-            'email'=>'required|string|email|unique:users',
-            'phone'=>'required|string|unique:users',
+            'email'=>'required|string|email|unique:users|unique:admins',
+            'phone'=>'required|string|unique:users|unique:admins',
             'gender'=>'required|string|',
             'dob'=>'required|string|',
             'province'=>'required|string|',
             'district'=>'required|string|',
-            'username'=>'required|string|',
+            'username'=>'required|string|min:8|unique:users|unique:admins',
             'password'=>'required|string|between:8,32|confirmed',
             'password_confirmation' => 'required'
         ],[
@@ -84,14 +85,16 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $users_numbers=collect(User::all())->count();
+        $userId=auth()->guard('user')->user()->id;
+        
         $Exam_numbers=collect(Exam::all())->count();
-        $Content_numbers=collect(Content::all())->count();
         $Course_numbers=collect(Course::all())->count();
-        $Certificate_numbers=collect(Certificate::all())->count();
-        $Result_numbers=collect(Result::all())->count();
+        $User_take_Course=collect(DB::table('user_course')->where('user_id',$userId))->count();
+        $Certificate_numbers=collect(Certificate::all()->where('UserId','=',$userId))->count();
+        $Done_exams=collect(ExamSubmission::all()->where('user_id',$userId))->count();
 
-        return view('users.student.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers'));
+        return view('users.student.home',compact('Exam_numbers','Course_numbers','Certificate_numbers','User_take_Course','Done_exams'));
+    
     }
 
     public function get_pswd_form(){
@@ -165,7 +168,15 @@ class UserController extends Controller
             ->select('courses.*', 'exams.id','courses.course_name', 'exams.exam_name','exams.total_marks')
             ->paginate(8);
             // dd($course_content);
-        return view('users.student.exam_content',compact('course_content'));
+        $user_id=auth()->guard('user')->user()->id;
+
+        // $exam_done=ExamSubmission::distinct('user_id')->where('user_id',$user_id)->count('user_id');
+        $exams=ExamSubmission::distinct('exam_id')->select('exam_id')->where('user_id',$user_id)->get('exam_id');
+        foreach ($exams as $key => $value) {
+            $Done_exam_id=$value->exam_id;
+        }
+
+        return view('users.student.exam_content',compact('course_content','Done_exam_id'));
     }
 
     public function get_learn_content(){
@@ -238,5 +249,7 @@ class UserController extends Controller
     public function post_confirm_submission(Request $request,$id){
         
     }
+
+
 
 }
