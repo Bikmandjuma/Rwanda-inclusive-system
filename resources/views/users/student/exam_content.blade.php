@@ -50,6 +50,7 @@
                             else{
                                 foreach ($result as $key => $value) {
                                     $marks_got=$value->total_score;
+                                    $result_id=$value->id;
                                 }
 
                                 if($marks_got < $half_marks){
@@ -69,8 +70,8 @@
                                 Take exam <b>/{{ $content->total_marks }}</b>
                             </button>
                         @else
-                            <button class="btn btn-light text-info" id="done_exam_id">
-                                Done exam <b>{{ $marks_got_x }} / {{ $content->total_marks }}</b>
+                            <button class="btn btn-light text-info" id="done_exam_id" onclick="confirmRedirectResult('{{ $result_id }}')">
+                                Done <b>{{ $marks_got_x }} / {{ $content->total_marks }} , got certificate</b>
                             </button>
                         @endif
 
@@ -95,6 +96,13 @@
             const userConfirmed = confirm("Are you sure you want to take this exam?");
             if (userConfirmed) {
                 window.location.href = '{{ url("user/take_exam")}}/'+contentId;
+            }
+        }
+
+        function confirmRedirectResult(resultId){
+            const userConfirmed = confirm("Do you want ,to see your certificate ?");
+            if (userConfirmed) {
+                window.location.href = '{{ url("user/check_certificate")}}/'+resultId;
             }
         }
     </script>    
