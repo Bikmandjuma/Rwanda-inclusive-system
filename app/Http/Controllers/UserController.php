@@ -171,13 +171,7 @@ class UserController extends Controller
             // dd($course_content);
         $user_id=auth()->guard('user')->user()->id;
 
-        // $exam_done=ExamSubmission::distinct('user_id')->where('user_id',$user_id)->count('user_id');
-        $exams=ExamSubmission::distinct('exam_id')->select('exam_id')->where('user_id',$user_id)->get('exam_id');
-        foreach ($exams as $key => $value) {
-            $Done_exam_id = $value->exam_id;
-        }
-
-        return view('users.student.exam_content',compact('course_content'));
+        return view('users.student.exam_content',compact('course_content','user_id'));
     }
 
     public function get_learn_content(){
@@ -244,16 +238,25 @@ class UserController extends Controller
         $exam_id=$id;
         $user_id=auth()->guard('user')->user()->id;
 
-        $content= DB::table('exams')
+        $totalMarks = DB::table('exams')
             ->join('questions', 'exams.id', '=', 'questions.exam_id')
             ->join('options', 'questions.id', '=', 'options.question_id')
             ->join('answers', 'questions.id', '=', 'answers.question_id')
-            ->select('answers.*', 'answers.selected_option_id','questions.marks','answers.user_id','questions.exam_id')
-            ->where(['answers.user_id' => $user_id , 'answers.exam_id' => $exam_id,'options.is_correct' =>'True'])
-            ->get('questions.marks');
-            //
+            ->where([
+                ['answers.user_id', '=', $user_id],
+                ['answers.exam_id', '=', $exam_id],
+                ['options.is_correct', '=', 'True'], // Assuming `is_correct` is a boolean field
+                ['answers.selected_option_id', '=', DB::raw('options.id')] // Ensures selected option is the correct one
+            ])
+            ->sum('questions.marks');
 
-        dd($content);
+        $result=new Result;
+        $result->exam_id = $exam_id;
+        $result->user_id = $user_id;
+        $result->total_score = $totalMarks;
+        $result->save();
+
+        return redirect()->route('get_exam_content');
 
     }
 
