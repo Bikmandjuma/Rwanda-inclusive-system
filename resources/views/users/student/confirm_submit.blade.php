@@ -14,32 +14,22 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-            <div class="card">
-                <h2 class="font-weight-bold text-center"> <span style="font-size:30px;font-style:san-serif" class="text-primary">Where you can choose how you want to learn:</span></h2>
-            </div>
-        </div>
-    </div>
     <br>
-    <ul style="list-style-type:numeric;">
-        <li>
-            <div class="row">
-                <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-                    <div class="card" id="card_id">
-                        <!-- <div class="card-title"></div> -->
-                        <div class="card-header bg-info text-white"><string><h3>Well done , u submitted ur exam</h3></string></div>
-                        <div class="card-body">
-                            <button onclick="window.location.href='{{ route('post_confirm_submission',$exam_id)}}'" class="btn btn-info">Confirm submission</button>
-                        </div>
-                    </div>
+
+    <div class="row">
+        <div class="col-3 col-xl-3 mb-4 mb-xl-0"></div>
+        <div class="col-6 col-xl-6 mb-4 mb-xl-0">
+            <div class="card text-center" id="card_id">
+                <div class="card-header bg-info text-white"><string><h3>Well done , you submitted your examination !</h3></string></div>
+                <div class="card-body">
+                    <form method="post" action="{{ route('post_confirm_submission',$exam_id)}}" >
+                        @csrf
+                        <button class="btn btn-primary">Confirm submition</button>
+                    </form>
                 </div>
             </div>
-        </li>
-        
-        <br>
-        
-    </ul>
-            
+        </div>
+        <div class="col-3 col-xl-3 mb-4 mb-xl-0"></div>
+    </div>
 
 @endsection

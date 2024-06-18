@@ -59,7 +59,11 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Choice</label>
-                                                <input type="text" class="form-control" name="choice[]" placeholder="Enter choice">
+                                                <select class="form-control" name="choice[]">
+                                                    <option>Select choice</option>
+                                                    <option value="True">True</option>
+                                                    <option value="False">False</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-2">

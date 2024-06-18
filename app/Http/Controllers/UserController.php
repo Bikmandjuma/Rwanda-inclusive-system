@@ -89,7 +89,8 @@ class UserController extends Controller
         
         $Exam_numbers=collect(Exam::all())->count();
         $Course_numbers=collect(Course::all())->count();
-        $User_take_Course=collect(DB::table('user_course')->where('user_id',$userId))->count();
+        // $User_take_Course=collect(DB::table('user_course')->where('user_id',$userId))->count();
+        $User_take_Course=0;
         $Certificate_numbers=collect(Certificate::all()->where('UserId','=',$userId))->count();
         $Done_exams=collect(ExamSubmission::all()->where('user_id',$userId))->count();
 
@@ -173,10 +174,10 @@ class UserController extends Controller
         // $exam_done=ExamSubmission::distinct('user_id')->where('user_id',$user_id)->count('user_id');
         $exams=ExamSubmission::distinct('exam_id')->select('exam_id')->where('user_id',$user_id)->get('exam_id');
         foreach ($exams as $key => $value) {
-            $Done_exam_id=$value->exam_id;
+            $Done_exam_id = $value->exam_id;
         }
 
-        return view('users.student.exam_content',compact('course_content','Done_exam_id'));
+        return view('users.student.exam_content',compact('course_content'));
     }
 
     public function get_learn_content(){
@@ -189,12 +190,6 @@ class UserController extends Controller
 
     public function take_exam($id){
         $exam_id=$id;
-        // $exam_content= DB::table('exams')
-        // ->join('questions', 'exams.id', '=', 'questions.exam_id')
-        // ->join('options', 'questions.id', '=', 'options.question_id')  
-        // ->select('exams.*', 'exams.id')
-        // ->where(['questions.exam_id' => $exam_id])
-        // ->get();
         $exam_content = Exam::with(['questions.options'])
         ->where('id', $exam_id)
         ->get();
@@ -211,7 +206,6 @@ class UserController extends Controller
         ]);
 
         $userId = auth()->guard('user')->user()->id; // Assuming the user is logged in
-        // $examId = $request->input('exam_id'); // Assuming exam_id is passed in the form
         $examId = $id;
 
 
@@ -247,7 +241,20 @@ class UserController extends Controller
     }
 
     public function post_confirm_submission(Request $request,$id){
-        
+        $exam_id=$id;
+        $user_id=auth()->guard('user')->user()->id;
+
+        $content= DB::table('exams')
+            ->join('questions', 'exams.id', '=', 'questions.exam_id')
+            ->join('options', 'questions.id', '=', 'options.question_id')
+            ->join('answers', 'questions.id', '=', 'answers.question_id')
+            ->select('answers.*', 'answers.selected_option_id','questions.marks','answers.user_id','questions.exam_id')
+            ->where(['answers.user_id' => $user_id , 'answers.exam_id' => $exam_id,'options.is_correct' =>'True'])
+            ->get('questions.marks');
+            //
+
+        dd($content);
+
     }
 
 

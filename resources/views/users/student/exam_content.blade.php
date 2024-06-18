@@ -32,17 +32,10 @@
                     </div>
                     <div class="card-body text-center">
                         
-                        @if($Done_exam_id == $content->id)
-                            <button class="btn btn-info">
-                                <b>Exam done</b>
-                            </button>
-                            
-                        @else
-                            <button class="btn btn-primary" onclick="confirmRedirect('{{ $content->id }}')">
-                                Take exam /<b>{{ $content->total_marks }}</b>
-                            </button>
-                            
-                        @endif
+                        
+                        <button class="btn btn-primary" onclick="confirmRedirect('{{ $content->id }}')">
+                            Take exam /<b>{{ $content->total_marks }}</b>
+                        </button>
 
                     </div>
                 </div>
