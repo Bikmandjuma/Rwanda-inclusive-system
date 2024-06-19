@@ -16,7 +16,7 @@
                             <!-- <div class="col-md-1 grid-margin stretch-card"></div> -->
                             <div class="col-md-12 grid-margin stretch-card">
                                 
-                            <div class="card">
+                            <div class="card" id="card_id">
                                     <div class="card-body">
                                     
                                     @php
@@ -107,7 +107,7 @@
                 <div class="col-md-3"></div>   
                 <div class="col-md-6 grid-margin stretch-card">    
                     
-                    <div class="card">
+                    <div class="card" id="card_id">
                         <div class="card-title text-center">Marks data of <b class="text-primary">{{ $course_name }}</b></div>
                             <div class="card-body">
                                 <table class="table table-striped">

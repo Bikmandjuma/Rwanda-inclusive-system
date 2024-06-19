@@ -64,7 +64,7 @@
         <div class="row" onclick='window.location.href="{{ route("get_lecture_video") }}"'>
                 <div class="col-12 col-xl-12 mb-4 mb-xl-0">
                     <div class="card" id="card_id">
-                        <div class="card-header bg-success text-white"><string><h3>Watch Lecture Videos</h3></string></div>
+                        <div class="card-header bg-success text-white"><string><h3>Watch Lecture Videos</h3></string><span class="float-right" style="margin-top:-30px;"><b>Video lecture : {{ $video_lecture_count }}</b></span></div>
                         <div class="card-body">
                             <ul>
                                 <li>Visual learners can benefit from our library of lecture videos, which cover a wide range of subjects.</li>

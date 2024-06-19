@@ -22,9 +22,11 @@ use App\Models\Result;
 use App\Models\Lesson;
 use App\Models\Certificate;
 use App\Models\Content;
+use App\Models\VideoLecture;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SheikhVerifyEmail;
 use Illuminate\Support\Facades\Crypt;
+use PDF;
 
 class UserController extends Controller
 {
@@ -159,7 +161,10 @@ class UserController extends Controller
     public function get_content(){
         $exam_count=collect(Exam::all())->count();
         $content_count=collect(Content::all())->count();
-        return view('users.student.content',compact('exam_count','content_count'));
+        $video_lecture_count=collect(VideoLecture::all())->count();
+
+        return view('users.student.content',compact('exam_count','content_count','video_lecture_count'));
+
     }
 
     public function get_exam_content(){
@@ -171,7 +176,9 @@ class UserController extends Controller
             // dd($course_content);
         $user_id=auth()->guard('user')->user()->id;
 
-        return view('users.student.exam_content',compact('course_content','user_id'));
+        $count_course_content = collect($course_content)->count();
+
+        return view('users.student.exam_content',compact('course_content','user_id','count_course_content'));
     }
 
     public function get_learn_content(){
@@ -260,6 +267,31 @@ class UserController extends Controller
 
     }
 
+    public function generateCertificate($id){
 
+        $exam_id=$id;
+        $user_id=auth()->guard('user')->user()->id;
+
+        $user_fname=auth()->guard('user')->user()->firstname;
+        $user_lname=auth()->guard('user')->user()->lastname;
+
+        $exam = Exam::findOrFail($exam_id);
+        $examResult = Result::where('user_id', $user_id)->where('exam_id', $exam_id)->firstOrFail();
+        
+        $totalMarks = $examResult->total_score;
+
+        $data = [
+            'firstname' => $user_fname,
+            'lastname' => $user_lname,
+            'examTitle' => $exam->exam_name,
+            'marks_got' => $totalMarks,
+            'total_marks' => $exam->total_marks,
+            'message' => "Congratulations {$user->firstname} {$user->lastname}! You have successfully completed the exam '{$exam->exam_name}' with a score of {$totalMarks}/{$exam->total_marks}."
+        ];
+
+        $pdf = PDF::loadView('users.student.certificate', $data);
+
+        return $pdf->download('certificate.pdf'); 
+    }
 
 }

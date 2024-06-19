@@ -63,7 +63,7 @@
           </div>
           <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
+              <div class="card" id="card_id">
                 <div class="card-body">
                  <div class="d-flex justify-content-between">
                   <p class="card-title">View analytics</p>

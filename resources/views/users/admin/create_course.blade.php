@@ -13,7 +13,7 @@
 
                         <div class="row">
                             <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
+                            <div class="card" id="card_id">
                                 <div class="card-body">
                                 <h4 class="card-title text-center">Add course details</h4>
                                 @if($errors->any())
@@ -51,7 +51,7 @@
                             <!-- <div class="col-md-1 grid-margin stretch-card"></div> -->
                             <div class="col-md-8 grid-margin stretch-card">
                                 
-                            <div class="card">
+                            <div class="card" id="card_id">
                                     <div class="card-body">
                                     
 

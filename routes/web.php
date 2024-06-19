@@ -50,6 +50,11 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::post('post_question/{id}',[AdminController::class,'post_questions'])->name('post_questions');
     Route::get('get_option/{id}',[AdminController::class,'get_options'])->name('get_options');
     Route::post('post_option/{id}',[AdminController::class,'post_options'])->name('post_option');
+    Route::get('view_student',[AdminController::class,'view_student_list'])->name('view_student');
+    Route::get('video-lecture',[AdminController::class,'get_video_lecture_content'])->name('add-video-lecture-content');
+    Route::get('view/video-lecture',[AdminController::class,'view_video_lecture_content'])->name('view-video-lecture-content');
+    Route::post('post/video-lecture',[AdminController::class,'post_video_lecture_content'])->name('post-video-lecture-content');
+    Route::get('view/singleVideo/{id}',[AdminController::class,'singleVideo'])->name('singleVideo');
 });
 
 //routes codes of user/students
@@ -69,4 +74,6 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::post('post_take_exam/{id}',[UserController::class,'submitExam'])->name('post_take_exam');
     Route::get('Confirm_submit/{id}',[UserController::class,'confirmSubmit'])->name('confirm_submit');
     Route::post('post_confirm_submission/{id}',[UserController::class,'post_confirm_submission'])->name('post_confirm_submission');
+    Route::get('check_certificate/{id}', [UserController::class, 'generateCertificate'])->name('got_certificate');
+
 });

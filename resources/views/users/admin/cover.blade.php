@@ -31,6 +31,10 @@
     webkit::-scrollbar{
      overflow: hidden; 
     }
+
+    #card_id{
+      box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
@@ -126,8 +130,7 @@
             </a>
             <div class="collapse" id="content">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ route('create-content') }}">Add content</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('view-content') }}">View content</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('create-content') }}">Add & view contents</a></li>
               </ul>
             </div>
           </li>
@@ -145,7 +148,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#examlist" aria-expanded="false" aria-controls="ui-basic">
-              <i class="mdi mdi-account-multiple" style='font-size:20px;'></i>&nbsp;
+              <i class="mdi mdi-format-list-bulleted" style='font-size:20px;'></i>&nbsp;
               <span class="menu-title">Manage Exam</span>
               <i class="menu-arrow"></i>
             </a>
@@ -164,8 +167,7 @@
             </a>
             <div class="collapse" id="student">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="">Students</a></li>
-                <li class="nav-item"> <a class="nav-link" href="">View report</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('view_student') }}">Students</a></li>
               </ul>
             </div>
           </li>

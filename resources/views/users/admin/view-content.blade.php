@@ -10,13 +10,13 @@
         <div class="row">
               
             <div class="col-md-3 grid-margin stretch-card">
-                <a href="{{ route('create-content')}}"><button class="btn btn-info">Create content</button></a>
+                <a href="{{ route('create-content') }}"><button class="btn btn-info">Create content</button></a>
             </div>
             <div class="col-md-6 grid-margin stretch-card">
 
                 <!-- </div> -->
-              <div class="card">
-                <div class="card-body">
+              <div class="card" id="card_id">
+                <div class="card-body" >
                   
 
                   <h4 class="card-title text-center">All content data</h4>

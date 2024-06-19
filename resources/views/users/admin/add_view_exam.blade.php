@@ -16,7 +16,7 @@
                 <div class="col-md-2"></div>   
                 <div class="col-md-8 grid-margin stretch-card">    
                     
-                    <div class="card">
+                    <div class="card" id="card_id">
                         <div class="card-title text-center">Examination list <b class="text-primary"></b></div>
                             <div class="card-body">
                                 <table class="table table-striped">

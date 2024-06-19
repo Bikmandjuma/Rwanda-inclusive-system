@@ -17,6 +17,7 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\User;
 use App\Models\Result;
+use App\Models\VideoLecture;
 use App\Models\Lesson;
 use App\Models\Certificate;
 use App\Models\Content;
@@ -68,7 +69,9 @@ class AdminController extends Controller
 
     //managing sheikh
     public function CreateContent(){
-        return view('users.admin.create-content');
+        $Content_numbers=collect(Content::all())->count();
+
+        return view('users.admin.create-content',compact('Content_numbers'));
     }
 
     //post content data
@@ -76,7 +79,7 @@ class AdminController extends Controller
         $this->validate($request,[
             'title' => 'required|string',
             'description' => 'required|string|',
-            'fileToUpload' => 'required|mimes:jpg,png,pdf,jpeg',
+            'fileToUpload' => 'required|mimes:jpg,png,pdf,jpeg,docx,csv',
         ],[
            'fileToUpload.required' => 'file field is required.' 
         ]);
@@ -313,7 +316,7 @@ class AdminController extends Controller
             ->join('exams', 'courses.id', '=', 'exams.course_id')
             ->select('courses.*', 'courses.id','courses.course_name', 'exams.exam_name','exams.total_marks')
             ->where(['courses.id'=>$course_id])
-            ->get();
+            ->paginate(3);
 
         return view('users.admin.course_data',compact('data','count_exam_marks','course_name','course_id','marks_data'));
     }
@@ -443,5 +446,66 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Options submitted successfully!');
     
     }
+
+    public function view_student_list(){
+        $student_list=User::paginate(5);
+        $student_list_data=User::all();
+        $student_list_count=collect($student_list_data)->count();
+        return view('users.admin.view_student',compact('student_list','student_list_count'));
+    }
+
+    public function get_video_lecture_content(){
+        $Content_numbers=collect(VideoLecture::all())->count();
+        return view('users.admin.create-video-content',compact('Content_numbers'));
+    }
+
+    public function view_video_lecture_content(){
+        $view_lecture_content=VideoLecture::paginate(12);
+        $count_lecture_data=collect($view_lecture_content)->count();
+
+        return view('users.admin.view-video-content',compact('view_lecture_content','count_lecture_data'));
+
+    }
+
+    public function post_video_lecture_content(Request $request){
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'video' => 'required|mimes:mp4,mov,ogg,qt,avi|max:20000', // 20MB Max
+        ]);
+
+        $title=$request->title;
+        $descr=$request->description;
+
+        $content = new VideoLecture;
+        $content -> title = $title;
+        $content -> content = $descr;
+
+        if($request->hasFile('video')){
+            $file= $request->file('video');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('style/images/videos'), $filename);
+            $content['video_file'] = $filename;
+        }
+
+        $content->save();
+
+        return redirect()->back()->with('content_added','New video content added well !');
+        
+    }
+
+    public function singleVideo($id){
+        $video_id=Crypt::decrypt($id);
+        $video_content_single=VideoLecture::findOrFail($video_id);
+
+        $all_video_files=VideoLecture::all()->where('id','!=',$video_id);
+        
+        $single_video_file=$video_content_single->video_file;
+        $single_video_title=$video_content_single->title;
+        $single_video_content=$video_content_single->content;
+
+        return view('users.admin.single_video',compact('single_video_file','single_video_title','single_video_content','all_video_files'));
+    }
+
 
 }

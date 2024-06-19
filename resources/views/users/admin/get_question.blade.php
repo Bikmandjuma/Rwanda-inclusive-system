@@ -25,7 +25,7 @@
                 <!-- <div class="col-md-2"></div>    -->
                 <div class="col-md-12 grid-margin stretch-card">    
                     
-                    <div class="card">
+                    <div class="card" id="card_id">
                         <div class="card-title text-center">
                             Examination question of <b class="text-primary">{{ $course_name }}</b>
                             <button class="btn btn-info float-right" data-toggle="modal" data-target="#Modalquesdtion" id="add_btn_id">Add new question</button>
