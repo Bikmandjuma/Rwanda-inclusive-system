@@ -30,7 +30,7 @@
                 <form action="{{ route('post_take_exam',$exam_id) }}" method="POST">
                     @csrf
                     @foreach ($exam_content as $exam)
-                        <div class="card-header bg-info text-white text-center">
+                        <div class="card-header bg-secondary text-white text-center">
                             <h3><b>{{ $exam->exam_name }}</b> <span class="float-right">Total_points : {{ $exam->total_marks }}</span> </h3>
                         </div>
                         <br>

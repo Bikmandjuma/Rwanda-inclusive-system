@@ -5,7 +5,7 @@
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+                    <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
                     </div>
                 </div>
 
@@ -91,8 +91,8 @@
                                                 <td class="py-1" title="{{$data->description}}">
                                                 @php
                                                     $descr=strlen($data->description);
-                                                    if($descr > 50){
-                                                        echo substr($data->description,0,50)." ... ";
+                                                    if($descr > 30){
+                                                        echo substr($data->description,0,30)." ... ";
                                                     }else{
                                                         echo $data->description;
                                                     }
@@ -100,7 +100,7 @@
                                                 @endphp
                                                 </td>
                                                 <td class="py-1">
-                                                <a href="{{ route('create-module',Crypt::encrypt($data->id)) }}" class="btn btn-info">Add module</a>
+                                                <a href="{{ route('create-module',Crypt::encrypt($data->id)) }}" class="btn btn-info">Add & view module</a>
                                                 </td>
                                             </tr>
                                             @endforeach

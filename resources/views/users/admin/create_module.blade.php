@@ -5,7 +5,7 @@
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+                    <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
                     </div>
                 </div>
 
@@ -92,11 +92,11 @@
                                                 <td class="py-1">
                                                 {{ $data->module_name }}
                                                 </td>
-                                                <td class="py-1">
+                                                <td class="py-1" title="{{ $data->content }}">
                                                 @php
                                                     $descr=strlen($data->content);
-                                                    if($descr > 50){
-                                                        echo substr($data->content,0,50)." ... ";
+                                                    if($descr > 30){
+                                                        echo substr($data->content,0,30)." ... ";
                                                     }else{
                                                         echo $data->content;
                                                     }
@@ -104,7 +104,7 @@
                                                 @endphp
                                                 </td>
                                                 <td class="py-1">
-                                                <a href="{{ route('create-lesson',Crypt::encrypt($data->id)) }}" class="btn btn-info">Add lesson</a>
+                                                <a href="{{ route('create-lesson',Crypt::encrypt($data->id)) }}" class="btn btn-info">Add & view lesson</a>
                                                 </td>
                                             </tr>
                                             @endforeach

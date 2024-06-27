@@ -53,12 +53,7 @@
           <li><h3 class="mt-2">Student panel</h3></li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          <!-- <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i>{{ Auth::guard('user')->user()->firstname}}</i>
-            </a>
-          </li> -->
-
+    
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="{{URL::to('/')}}/style/images/user/{{auth()->guard('user')->user()->image}}" alt="profile"/>
@@ -126,7 +121,7 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#content" aria-expanded="false" aria-controls="ui-basic">
               <i class="mdi mdi-format-list-bulleted" style='font-size:20px;'></i>&nbsp;
-              <span class="menu-title">Exam</span>
+              <span class="menu-title">Learn & Exam</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="content">
@@ -144,7 +139,7 @@
             </a>
             <div class="collapse" id="results">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ route('view-content') }}">View results</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('get_result') }}">View results</a></li>
               </ul>
             </div>
         </li>

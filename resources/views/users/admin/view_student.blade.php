@@ -1,8 +1,10 @@
 @extends('users.admin.cover')
 @section('content')
-
+<?php
+  use App\Models\Result;
+?>
         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-            <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+            <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
         </div>  
         
         <br>
@@ -79,7 +81,23 @@
                               {{ $data->district }}
                             </td>
                             <td class="py-1">
-                              <a href="#id={{ $data->id }}" download class="btn btn-info">Result</a>
+                              <?php
+                                $result=Result::all()->where('user_id',$data->id);
+                                $count_result=collect($result)->count();
+
+                                if($data->gender == "Male"){
+                                  $gender="He";
+                                }else{
+                                  $gender="She";
+                                }
+                              ?>
+                              
+                              @if($count_result == 0)
+                                <a href="#" class="btn btn-danger" onclick="return confirm('No result of {{ $data->firstname}} {{$data->lastname}} found in database ,ie:{{$gender}} is not doing exam yet !')">No yet</a>
+                              @else
+                                <a href="{{ route('student_result',$data->id) }}" class="btn btn-info">Result</a>
+                              @endif
+                              
                             </td>
                           </tr>
                         @endforeach

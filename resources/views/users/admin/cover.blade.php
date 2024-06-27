@@ -54,7 +54,7 @@
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-settings d-none d-lg-flex">
             <a class="nav-link" href="#">
-              <i>{{ Auth::guard('admin')->user()->firstname}}</i>
+              <!-- <i>{{ Auth::guard('admin')->user()->firstname}}</i> -->
             </a>
           </li>
 
@@ -63,15 +63,15 @@
               <img src="{{URL::to('/')}}/style/images/admin/{{auth()->guard('admin')->user()->image}}" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="{{ route('get_info') }}">
+              <a class="dropdown-item" href="{{ route('admin_get_info') }}">
                 <i class="ti-user text-primary"></i>
                 My info
               </a>
-              <a class="dropdown-item" href="{{ route('get_profile') }}">
+              <a class="dropdown-item" href="{{ route('admin_get_profile') }}">
                 <i class="mdi mdi-file-image text-primary"></i>
                 Profile
               </a>
-              <a class="dropdown-item" href="{{ route('get_password') }}">
+              <a class="dropdown-item" href="{{ route('admin_get_password') }}">
                 <i class="ti-key text-primary"></i>
                 Password
               </a>

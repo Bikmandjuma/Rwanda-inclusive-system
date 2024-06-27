@@ -5,7 +5,7 @@
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+                    <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
                     </div>
                 </div>
 
@@ -61,8 +61,14 @@
                                                 <td class="py-3">
                                                     {{ $count++ }}
                                                 </td>
-                                                <td class="py-1">
-                                                    {{ $data->question_text }}
+                                                <td class="py-1" title="{{ $data->question_text }} ">
+                                                    @if(strlen($data->question_text) <= 40)
+                                                        {{ $data->question_text }} 
+                                                    @else
+                                                        <?php
+                                                            echo substr($data->question_text,0,40)."....";
+                                                        ?>
+                                                    @endif
                                                 </td>
                                                 <td class="py-1">
                                                     {{ $data->question_type }}
@@ -71,7 +77,7 @@
                                                     {{ $data->marks }}
                                                 </td>
                                                 <td class="py-1">
-                                                    <a class="btn btn-danger" href="{{url('admin/get_option')}}/{{ $data->id }}">No option added yet</a>
+                                                    <a class="btn btn-danger" href="{{url('admin/get_option')}}/{{ $data->id }}/{{ $exam_id }}">No option added yet</a>
                                                 </td>
                                             </tr>
                                             
@@ -104,13 +110,13 @@
             </div>
         </div>
 
-        <!-- @if(session('marks_total_counts') == 100)
+        @if($marks_counts == 100)
             <Style>
                 #add_btn_id{
                     display:none;
                 }
             </style>
-        @endif -->
+        @endif
 
 
     <!--start modal of exam marks-->

@@ -1,10 +1,8 @@
 @extends('auth.cover')
 @section('content')
-        <div class="row">
-            
-            <!-- <div class="col-md-3"></div> -->
-            <div class="col-md-12">
-              <div class="card">
+    <div class="row w-100 mx-0">
+          <div class="col-lg-6 mx-auto">
+              <div class="card auth-form-light">
                 <div class="card-body">
                 <div class="brand-logo align-items-center text-center">
                     <img src="{{ URL::to('/') }}/style/images/logo.png" alt="logo">

@@ -32,11 +32,11 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('Create/Content',[AdminController::class,'CreateContent'])->name('create-content');
     Route::post('PostContent',[AdminController::class,'PostContent'])->name('post-content');
     Route::get('View/Content',[AdminController::class,'ViewContent'])->name('view-content');
-    Route::get('password_management',[AdminController::class,'get_pswd_form'])->name('get_password');
-    Route::post('submit_password_management',[AdminController::class,'post_pswd_form'])->name('post_password');
-    Route::get('information',[AdminController::class,'my_info'])->name('get_info');
-    Route::get('profile',[AdminController::class,'my_profile'])->name('get_profile');
-    Route::post('post_profile',[AdminController::class,'post_profile'])->name('post_profile');
+    Route::get('password_management',[AdminController::class,'get_pswd_form'])->name('admin_get_password');
+    Route::post('submit_password_management',[AdminController::class,'post_pswd_form'])->name('admin_post_password');
+    Route::get('information',[AdminController::class,'my_info'])->name('admin_get_info');
+    Route::get('profile',[AdminController::class,'my_profile'])->name('admin_get_profile');
+    Route::post('post_profile',[AdminController::class,'post_profile'])->name('admin_post_profile');
     Route::get('create/course',[AdminController::class,'create_course'])->name('create-course');
     Route::post('post_course',[AdminController::class,'post_course'])->name('post_course');
     Route::get('create/module/{id}',[AdminController::class,'create_module'])->name('create-module');
@@ -48,13 +48,14 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('add_view_exam',[AdminController::class,'add_view_exam'])->name('add_view_exam');
     Route::get('get_question/{id}/{name}',[AdminController::class,'get_question'])->name('get_question');
     Route::post('post_question/{id}',[AdminController::class,'post_questions'])->name('post_questions');
-    Route::get('get_option/{id}',[AdminController::class,'get_options'])->name('get_options');
-    Route::post('post_option/{id}',[AdminController::class,'post_options'])->name('post_option');
+    Route::get('get_option/{id}/{exam_id}',[AdminController::class,'get_options'])->name('get_options');
+    Route::post('post_option/{id}/{exam_id}',[AdminController::class,'post_options'])->name('post_option');
     Route::get('view_student',[AdminController::class,'view_student_list'])->name('view_student');
+    Route::get('view/student/result/{id}',[AdminController::class,'get_student_Result'])->name('student_result');
     Route::get('video-lecture',[AdminController::class,'get_video_lecture_content'])->name('add-video-lecture-content');
     Route::get('view/video-lecture',[AdminController::class,'view_video_lecture_content'])->name('view-video-lecture-content');
     Route::post('post/video-lecture',[AdminController::class,'post_video_lecture_content'])->name('post-video-lecture-content');
-    Route::get('view/singleVideo/{id}',[AdminController::class,'singleVideo'])->name('singleVideo');
+    
 });
 
 //routes codes of user/students
@@ -75,5 +76,8 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::get('Confirm_submit/{id}',[UserController::class,'confirmSubmit'])->name('confirm_submit');
     Route::post('post_confirm_submission/{id}',[UserController::class,'post_confirm_submission'])->name('post_confirm_submission');
     Route::get('check_certificate/{id}', [UserController::class, 'generateCertificate'])->name('got_certificate');
-
+    Route::get('studentDeleteAccount', [UserController::class, 'studentDeleteAccount'])->name('studentDeleteAccount');
+    Route::get('view/singleVideo/{id}',[UserController::class,'singleVideo'])->name('singleVideo');
+    Route::get('get_result',[UserController::class,'get_result'])->name('get_result');
+    
 });

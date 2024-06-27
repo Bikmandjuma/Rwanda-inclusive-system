@@ -6,7 +6,7 @@
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+                    <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
                     </div>
                 </div>
 
@@ -21,6 +21,11 @@
 
                         @if(session('success'))
                             <li class="alert alert-success" id="error_msg">{{ session('success') }}</li>
+                            <script>
+                                setTimeout(() => {
+                                    window.location.href='{{ route('get_question')}}';
+                                },3000);
+                            </script>
                         @endif
 
                         @if($errors->any())
@@ -41,7 +46,7 @@
                         <div class="card-title text-center">
                         </div>
                         <div class="card-body">
-                            <form class="forms-sample" action="{{ route('post_option',$question_id)}}" method="POST" id="form_id">
+                            <form class="forms-sample" action="{{ url('admin/post_option') }}/{{$question_id}}/{{$exam_id}})}}" method="POST" id="form_id">
                                 @csrf
                                 <div class="form-group">
                                     <label>Question</label>
@@ -53,13 +58,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Option_text</label>
-                                                <input type="text" class="form-control" name="option_text[]" placeholder="Enter option text">
+                                                <input type="text" class="form-control" name="option_text[]" required placeholder="Enter option text">
                                             </div>
                                         </div>   
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Choice</label>
-                                                <select class="form-control" name="choice[]">
+                                                <select class="form-control" name="choice[]" required>
                                                     <option>Select choice</option>
                                                     <option value="True">True</option>
                                                     <option value="False">False</option>

@@ -36,12 +36,11 @@
         
         @else
         
-        
                 @foreach($course_content as $content)
-                    <div class="col-3 col-xl-3 mb-4 mb-xl-0">
+                    <div class="col-12 col-xl-3 mb-4 mb-xl-0">
                         <div class="card mt-4" id="card_id">
                             <!-- <div class="card-title"></div> -->
-                            <div class="card-header bg-info text-white text-center"><string><h3>{{ $content->course_name }} </h3></string></div>
+                            <div class="card-header bg-secondary text-white text-center"><string><h3>{{ $content->course_name }} </h3></string></div>
                             <div class="card-body">
                                 <ul>
                                     <li>
@@ -57,24 +56,11 @@
                                     
                                     //calculate half
                                     $half_marks=$content->total_marks/2;
-
-                                    if ($count_result == 0) {}
-                                    else{
-                                        foreach ($result as $key => $value) {
-                                            $marks_got=$value->total_score;
-                                            $result_id=$value->id;
-                                        }
-
-                                        if($marks_got < $half_marks){
-                                            $marks_got_x =$marks_got;
-                                        }else{
-                                            $marks_got_x = $marks_got;
-                                        }
-                                    }
-
-                                    
-
                                 
+                                    foreach ($result as $key => $value) {
+                                        $marks_got=$value->total_score;
+                                        $result_id=$value->id;
+                                    }
                                 ?>
 
                                 @if($count_result == 0)
@@ -83,7 +69,12 @@
                                     </button>
                                 @else
                                     <button class="btn btn-light text-info" id="done_exam_id" onclick="confirmRedirectResult('{{ $result_id }}')">
-                                        Done <b>{{ $marks_got_x }} / {{ $content->total_marks }} , got certificate</b>
+
+                                        @if($marks_got < $half_marks)
+                                            Done <b><span class="text-danger">{{ $marks_got }}</span>/{{ $content->total_marks }}</b>,certificate
+                                        @else
+                                            Done <b>{{ $marks_got }}/{{ $content->total_marks }}</b>,certificate
+                                        @endif
                                     </button>
                                 @endif
 

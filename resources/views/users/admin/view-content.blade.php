@@ -2,7 +2,7 @@
 @section('content')
 
         <div class="col-12 col-xl-12 mb-4 mb-xl-0">
-            <h3 class="font-weight-bold">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+            <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
         </div>  
         
         <br>
@@ -24,9 +24,9 @@
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>
+                          <!-- <th>
                             Image
-                          </th>
+                          </th> -->
                           <th>
                             Title
                           </th>
@@ -34,27 +34,25 @@
                             Description
                           </th>
                         
-                          <!-- <th>
+                          <th>
                             Action
-                          </th> -->
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         
                         @foreach($content_data as $data)
                           <tr>
-                            <td class="py-1">
-                              <img src="{{ URL::to('/') }}/style/images/content/{{ $data->image }}" alt="content's image"/>
-                            </td>
+                
                             <td class="py-1">
                               {{ $data->title }}
                             </td>
                             <td class="py-1">
                               {{ $data->discription }}
                             </td>
-                            <!-- <td class="py-1">
-                              <a href="#id={{ $data->id }}"><i class="mdi mdi-eye"></i></a>
-                            </td> -->
+                            <td class="py-1">
+                              <a href="{{ URL::to('/') }}/style/images/content/{{ $data->image }}" target="parent">view & Download</a>
+                            </td>
                           </tr>
                         @endforeach
 

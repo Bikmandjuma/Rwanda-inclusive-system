@@ -38,7 +38,16 @@ img:hover{
 
 </style>
 
-                  <div class="row">
+              <div class="row">
+                
+                <div class="col-12 col-xl-12 mb-4 mb-xl-0">
+                  <h3 class="font-weight-bold" style="font-family:san-serif;">Welcome <span style="font-size:30px;font-style:san-serif" class="text-primary">{{ Auth::guard('admin')->user()->firstname}} {{ Auth::guard('admin')->user()->lastname}}</span></h3>
+                </div>
+
+              </div>
+
+
+                  <div class="row mt-2">
                       <div class="col-md-4"></div>
                       <div class="col-md-4">
                         @if($errors->any())

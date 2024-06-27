@@ -79,7 +79,7 @@ class AdminController extends Controller
         $this->validate($request,[
             'title' => 'required|string',
             'description' => 'required|string|',
-            'fileToUpload' => 'required|mimes:jpg,png,pdf,jpeg,docx,csv',
+            'fileToUpload' => 'required|mimes:pdf,docx',
         ],[
            'fileToUpload.required' => 'file field is required.' 
         ]);
@@ -94,7 +94,7 @@ class AdminController extends Controller
         if($request->hasFile('fileToUpload')){
             $file= $request->file('fileToUpload');
             $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('style/images/content'), $filename);
+            $file-> move(public_path('style/images/content/'), $filename);
             $content['image'] = $filename;
         }
 
@@ -172,6 +172,9 @@ class AdminController extends Controller
     }
 
     public function my_info(){
+        $created_at = Auth::guard('admin')->user()->created_at;
+        dd($created_at);
+        
         return view('users.admin.MyInformation');
     }
 
@@ -366,6 +369,7 @@ class AdminController extends Controller
             ->select('exams.*', 'questions.marks')
             ->where(['questions.exam_id'=>$exam_id])
             ->sum('marks');
+            
 
         return view('users.admin.get_question',compact('question_data','exam_id','course_name','count_question_data','marks_counts'));
     }
@@ -404,11 +408,13 @@ class AdminController extends Controller
         }
     }
 
-    public function get_options($id){
+    public function get_options($id,$exam_id){
+
         $option_data=Option::all();
         $count_option_data=collect('option_data')->count();
 
         $question_id=$id;
+        $exam_id=$exam_id;
         
         $question_name=Question::all()->where("id",$id);
         foreach ($question_name as $key => $value) {
@@ -417,10 +423,10 @@ class AdminController extends Controller
 
         $count_option_id=collect(Option::all()->where("question_id",$id))->count();
 
-        return view('users.admin.get_options',compact('option_data','count_option_data','quest_name','question_id','count_option_id'));
+        return view('users.admin.get_options',compact('option_data','count_option_data','quest_name','question_id','count_option_id','exam_id'));
     }
 
-    public function post_options(Request $request,$id){
+    public function post_options(Request $request,$id,$exam_id){
         $option_Data = $request->validate([
             'option_text' => 'required|min:1',
             'option_text.*' => 'required|string|max:255',
@@ -433,6 +439,7 @@ class AdminController extends Controller
 
         
         $question_id=$id;
+        $exam_id=$exam_id;
 
         foreach ($option_Data['option_text'] as $key => $value) {
             
@@ -443,7 +450,18 @@ class AdminController extends Controller
             $data->save();
         }
 
-        return redirect()->back()->with('success', 'Options submitted successfully!');
+        $course_name=DB::table('courses')
+            ->join('exams','courses.id','=','exams.course_id')
+            ->select('exams.*','exams.id','courses.course_name')
+            ->where(['exams.id' => $exam_id])
+            ->get('course_name');
+        
+        foreach ($course_name as $key => $data) {
+            $course_name=$data->course_name;
+        }
+
+
+        return redirect(url('admin/get_question/'.$exam_id.'/'.$course_name));
     
     }
 
@@ -451,6 +469,7 @@ class AdminController extends Controller
         $student_list=User::paginate(5);
         $student_list_data=User::all();
         $student_list_count=collect($student_list_data)->count();
+        
         return view('users.admin.view_student',compact('student_list','student_list_count'));
     }
 
@@ -471,7 +490,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'video' => 'required|mimes:mp4,mov,ogg,qt,avi|max:20000', // 20MB Max
+            'video' => 'required|mimes:mp4,mov,ogg,qt,avi|max:200000', // 200MB Max
         ]);
 
         $title=$request->title;
@@ -488,23 +507,50 @@ class AdminController extends Controller
             $content['video_file'] = $filename;
         }
 
+        $content->views = 0;
         $content->save();
 
         return redirect()->back()->with('content_added','New video content added well !');
         
     }
 
-    public function singleVideo($id){
-        $video_id=Crypt::decrypt($id);
-        $video_content_single=VideoLecture::findOrFail($video_id);
+    public function get_student_Result($id){
+        $current_year=date('Y');
+        $user_id = $id;
 
-        $all_video_files=VideoLecture::all()->where('id','!=',$video_id);
+        $modules_marks = DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->join('results', 'exams.id', '=', 'results.exam_id')
+            ->select('results.*','course_name','exam_name','total_marks','total_score')
+            ->where([
+                ['results.user_id', '=', $user_id],
+            ])->get();
+
+        $sum_total_scores = DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->join('results', 'exams.id', '=', 'results.exam_id')
+            ->select('results.*','course_name','exam_name','total_marks','total_score')
+            ->where([
+                ['results.user_id', '=', $user_id],
+            ])->sum('total_score');
+
+        $sum_total_marks = DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->join('results', 'exams.id', '=', 'results.exam_id')
+            ->select('results.*','course_name','exam_name','total_marks','total_score')
+            ->where([
+                ['results.user_id', '=', $user_id],
+            ])->sum('total_marks');
+
+            $count_result_courses=collect($modules_marks)->count();
+
+            $marks_got=($sum_total_scores/$count_result_courses);
+
+            $student=User::find($user_id);
+            $student_fnane=$student->firstname;
+            $student_lnane=$student->lastname;
         
-        $single_video_file=$video_content_single->video_file;
-        $single_video_title=$video_content_single->title;
-        $single_video_content=$video_content_single->content;
-
-        return view('users.admin.single_video',compact('single_video_file','single_video_title','single_video_content','all_video_files'));
+        return view('users.admin.studentResult',compact('student_fnane','student_lnane','current_year','modules_marks','marks_got','sum_total_marks','sum_total_scores'));
     }
 
 
