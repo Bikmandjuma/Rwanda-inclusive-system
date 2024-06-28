@@ -68,12 +68,13 @@
                                         Take exam <b>/{{ $content->total_marks }}</b>
                                     </button>
                                 @else
-                                    <button class="btn btn-light text-info" id="done_exam_id" onclick="confirmRedirectResult('{{ $result_id }}')">
+                                <!-- onclick="confirmRedirectResult('{{ $result_id }}')" -->
+                                    <button class="btn btn-light text-info" id="done_exam_id">
 
                                         @if($marks_got < $half_marks)
-                                            Done <b><span class="text-danger">{{ $marks_got }}</span>/{{ $content->total_marks }}</b>,certificate
+                                            Done <b><span class="text-danger">{{ $marks_got }}</span>/{{ $content->total_marks }}</b>
                                         @else
-                                            Done <b>{{ $marks_got }}/{{ $content->total_marks }}</b>,certificate
+                                            Done <b>{{ $marks_got }}/{{ $content->total_marks }}</b>
                                         @endif
                                     </button>
                                 @endif
