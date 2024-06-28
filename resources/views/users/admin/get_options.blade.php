@@ -1,6 +1,5 @@
 @extends('users.admin.cover')
 @section('content')
-
     
         <div class="row">
             <div class="col-md-12 grid-margin">
@@ -15,8 +14,8 @@
             <div class="row">
                 <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        @if(session('error_higher_amount'))
-                            <li class="alert alert-danger" id="error_msg">{{ session('error_higher_amount') }}</li>
+                        @if(session('success'))
+                            <li class="alert alert-info" id="error_msg">{{ session('success') }}</li>
                         @endif
 
                         @if(session('success'))
@@ -46,11 +45,11 @@
                         <div class="card-title text-center">
                         </div>
                         <div class="card-body">
-                            <form class="forms-sample" action="{{ url('admin/post_option') }}/{{$question_id}}/{{$exam_id}})}}" method="POST" id="form_id">
+                            <form class="forms-sample" action="{{ url('admin/post_option') }}/{{$question_id}}/{{$exam_id}}" method="POST" id="form_id">
                                 @csrf
                                 <div class="form-group">
                                     <label>Question</label>
-                                    <input type="text" value="{{ $quest_name }}" class="form-control" name="course_name" disabled>
+                                    <input type="text" title="{{ $quest_name }}" value="{{ substr($quest_name,0,40)}} . . . . . ." class="form-control" name="course_name" disabled>
                                 </div>
 
                                 <div id="option-fields">

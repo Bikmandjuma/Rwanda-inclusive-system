@@ -69,6 +69,13 @@
             <div class="row">
 					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-30"></div>
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-30">
+						
+						@if(session('success'))
+							<li class="alert alert-info text-center" id="error_msg">
+								{{ session('success') }}
+							</li>
+						@endif
+
                         <div class="card" id="card_id">
 						<div class="pd-20 card-box height-100-p">
 							<div class="profile-photo text-center">
@@ -126,6 +133,9 @@
 								</ul>
                                 <button class="btn btn-danger float-right" style="margin-top:-60px;margin-bottom:5px;"  data-toggle="modal" data-target="#ModalDeleteAccount">Delete account</button>
 							</div>
+							<div class="profile-social text-center">
+                                <button class="btn btn-primary float-center" style=""  data-toggle="modal" data-target="#ModalEditInfo">Edit my Info</button>
+							</div>
 
 							
 						</div>
@@ -155,4 +165,82 @@
             </div>
           </div>
     <!--end of modal-->
+
+	 <!--start of modal edit info -->
+	 <div class="modal" id="ModalEditInfo" tabindex="-1" role="dialog" aria-hidden="true"  style="margin-top:45px;">
+            <div class="modal-dialog modal-md text-center">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close"><!--span aria-hidden="true">×</span--></button>
+                  <h4>Edit info&nbsp;<i class="mdi mdi-trash" id="logout_sys_icon"></i></h4>
+                </div>
+                <div class="modal-body" style="margin-top:-20px;">
+                  <div class="actionsBtns">
+					<form class="forms-sample" action="{{ route('EditStudentInfo') }}" method="POST">
+						@csrf
+						<div class="row">
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="firstname" value="{{ auth()->guard('user')->user()->firstname }}" required placeholder="Enter firstname" required>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="lastname" value="{{ auth()->guard('user')->user()->lastname }}" required placeholder="Enter lastname" required>
+							</div>
+						</div>
+
+						<div class="row mt-2">
+							<div class="col-md-6">
+								
+								<select class="form-control" name="gender" required>
+									@if(auth()->guard('user')->user()->gender == "Male")
+										<option value="Male" selected>Male</option>
+										<option value="Female">Female</option>
+									@else
+										<option value="Male">Male</option>
+										<option value="Female" selected>Female</option>
+									@endif
+								</select>
+								
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="email" value="{{ auth()->guard('user')->user()->email }}" placeholder="Enter email" required>
+							</div>
+						</div>
+
+						<div class="row mt-2">
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="phone" value="{{ auth()->guard('user')->user()->phone }}" placeholder="Enter phone" required>
+							</div>
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="province" value="{{ auth()->guard('user')->user()->province }}" placeholder="Enter province" required>
+							</div>
+						</div>
+
+						<div class="row mt-2">
+							<div class="col-md-6">
+								<input type="text" class="form-control" name="district" value="{{ auth()->guard('user')->user()->district }}" placeholder="Enter firstname" required>
+							</div>
+							<div class="col-md-6">
+								<input type="date" class="form-control" name="dob" value="{{ auth()->guard('user')->user()->dob }}" required>
+							</div>
+						</div>
+						
+						<div class="text-center mt-3">
+							<button type="submit" class="btn btn-primary mr-2">Save changes</button>
+							<button class="btn btn-danger float-right" data-dismiss="modal"><i class="fa fa-times"></i> Not now</button>
+						</div>
+					</form>
+
+                      
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    <!--end of modal edit info-->
+
+	<script>
+		setTimeout(() => {
+			document.getElementById('error_msg').style.display="none";	
+		}, 5000);
+	</script>
 @endsection

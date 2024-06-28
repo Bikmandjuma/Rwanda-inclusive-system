@@ -43,8 +43,8 @@
                         
                         @foreach($content_data as $data)
                           <tr>
-                
-                            <td class="py-1">
+                 
+                            <td class="py-2">
                               {{ $data->title }}
                             </td>
                             <td class="py-1">

@@ -93,9 +93,9 @@
                               ?>
                               
                               @if($count_result == 0)
-                                <a href="#" class="btn btn-danger" onclick="return confirm('No result of {{ $data->firstname}} {{$data->lastname}} found in database ,ie:{{$gender}} is not doing exam yet !')">No yet</a>
+                                <a href="#" class="btn btn-danger" onclick="return confirm('No result of {{ $data->firstname}} {{$data->lastname}} found in database ,ie:{{$gender}} is not doing exam yet !')">Not yet</a>
                               @else
-                                <a href="{{ route('student_result',$data->id) }}" class="btn btn-info">Result</a>
+                                <a href="{{ route('student_result',Crypt::encrypt($data->id)) }}" class="btn btn-info">Result</a>
                               @endif
                               
                             </td>

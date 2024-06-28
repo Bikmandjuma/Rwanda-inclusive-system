@@ -55,6 +55,8 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('video-lecture',[AdminController::class,'get_video_lecture_content'])->name('add-video-lecture-content');
     Route::get('view/video-lecture',[AdminController::class,'view_video_lecture_content'])->name('view-video-lecture-content');
     Route::post('post/video-lecture',[AdminController::class,'post_video_lecture_content'])->name('post-video-lecture-content');
+    Route::get('get_singleOption_byQuestion/{question_id}/{exam_id}/{course_name}',[AdminController::class,'get_singleOption_byQuestion'])->name('get_option_byQuestion_name');
+    Route::post('edit/information',[AdminController::class,'editAdminInfo'])->name('EditAdminInfo');
     
 });
 
@@ -79,5 +81,6 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::get('studentDeleteAccount', [UserController::class, 'studentDeleteAccount'])->name('studentDeleteAccount');
     Route::get('view/singleVideo/{id}',[UserController::class,'singleVideo'])->name('singleVideo');
     Route::get('get_result',[UserController::class,'get_result'])->name('get_result');
+    Route::post('edit/inforamtion',[UserController::class,'edit_StudentInfo'])->name('EditStudentInfo');
     
 });

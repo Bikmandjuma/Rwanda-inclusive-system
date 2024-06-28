@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Models\Result;
 use App\Models\VideoLecture;
 use App\Models\Lesson;
+use App\Models\ExamSubmission;
 use App\Models\Certificate;
 use App\Models\Content;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,7 @@ class AdminController extends Controller
         $Course_numbers=collect(Course::all())->count();
         $Certificate_numbers=collect(Certificate::all())->count();
         $Result_numbers=collect(Result::all())->count();
+        // $Result_numbers=collect(ExamSubmission::all())->count();
 
         return view('users.admin.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers'));
     }
@@ -172,9 +174,7 @@ class AdminController extends Controller
     }
 
     public function my_info(){
-        $created_at = Auth::guard('admin')->user()->created_at;
-        dd($created_at);
-        
+        $created_at = Auth::guard('admin')->user()->created_at;        
         return view('users.admin.MyInformation');
     }
 
@@ -357,8 +357,8 @@ class AdminController extends Controller
     }
 
     public function get_question($id,$name){
-        $course_name=$name;
-        $exam_id=$id;
+        $course_name=Crypt::decrypt($name);
+        $exam_id=Crypt::decrypt($id);
 
         $question_data=Question::all()->where('exam_id',$exam_id);
 
@@ -460,8 +460,7 @@ class AdminController extends Controller
             $course_name=$data->course_name;
         }
 
-
-        return redirect(url('admin/get_question/'.$exam_id.'/'.$course_name));
+        return redirect(url('admin/get_question/'.Crypt::encrypt($exam_id).'/'.Crypt::encrypt($course_name)))->with('success','option added well !');
     
     }
 
@@ -516,7 +515,7 @@ class AdminController extends Controller
 
     public function get_student_Result($id){
         $current_year=date('Y');
-        $user_id = $id;
+        $user_id = Crypt::decrypt($id);
 
         $modules_marks = DB::table('courses')
             ->join('exams', 'courses.id', '=', 'exams.course_id')
@@ -553,5 +552,42 @@ class AdminController extends Controller
         return view('users.admin.studentResult',compact('student_fnane','student_lnane','current_year','modules_marks','marks_got','sum_total_marks','sum_total_scores'));
     }
 
+    function get_singleOption_byQuestion($question_id,$exam_id,$course_name){
+        $question_id=Crypt::decrypt($question_id);
+        $exam_id=Crypt::decrypt($exam_id);
+        $course_name=Crypt::decrypt($course_name);
+
+        $option_data=Option::all()->where('question_id',$question_id);
+        $exam_data=Exam::find($exam_id);
+        $question_data=Question::find($question_id);
+
+        $exam_name=$exam_data->exam_name;
+        $question_marks=$question_data->marks;
+        $question_text=$question_data->question_text;
+        $question_type=$question_data->question_type;
+        $count_option=1;
+
+        $options_count=collect($option_data)->count();
+
+        return view('users.admin.get_option_byQuestion',compact('option_data','exam_name','course_name','question_marks','question_text','count_option','question_type','options_count'));
+
+    }
+
+    function editAdminInfo(Request $request){
+        $admin_id=auth()->guard('admin')->user()->id;
+        
+        DB::table('admins')
+        ->where('id', $admin_id)
+        ->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'gender' => $request->gender,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'dob' => $request->dob,
+        ]);
+
+        return redirect()->back()->with('success','My information updated well !');
+    }
 
 }

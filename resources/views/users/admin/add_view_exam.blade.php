@@ -1,6 +1,8 @@
 @extends('users.admin.cover')
 @section('content')
-
+<?php
+    use App\Models\Question;
+?>
         <div class="row">
             <div class="col-md-12 grid-margin">
                 <div class="row">
@@ -62,7 +64,11 @@
                                                 </td>
 
                                                 <td class="py-1">
-                                                    <a class="btn btn-info" href="{{ url('admin/get_question')}}/{{$data->exam_id}}/{{$data->course_name}}" >View question</a>
+                                                    <?php
+                                                        $question=Question::all()->where('exam_id',$data->id);
+                                                        $count_question=collect($question)->count();
+                                                    ?>
+                                                    <a class="btn btn-info" href="{{ url('admin/get_question')}}/{{Crypt::encrypt($data->exam_id)}}/{{Crypt::encrypt($data->course_name)}}" >View questions &nbsp;&nbsp;&nbsp;<span class="badge badge-light">{{$count_question}}</span> </a>
                                                 </td>
 
                                             </tr>

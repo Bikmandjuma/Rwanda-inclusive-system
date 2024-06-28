@@ -401,4 +401,24 @@ class UserController extends Controller
         return view('users.student.get_result',compact('current_year','modules_marks','marks_got','sum_total_marks','sum_total_scores'));
     }
 
+    function edit_StudentInfo(Request $request){
+        $student_id=auth()->guard('user')->user()->id;
+        
+        DB::table('users')
+        ->where('id', $student_id)
+        ->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'gender' => $request->gender,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'province' => $request->province,
+            'district' => $request->district,
+            'dob' => $request->dob,
+        ]);
+
+        return redirect()->back()->with('success','My information updated well !');
+        
+    }
+
 }

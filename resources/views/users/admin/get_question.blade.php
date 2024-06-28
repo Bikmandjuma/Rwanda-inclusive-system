@@ -1,5 +1,8 @@
 @extends('users.admin.cover')
 @section('content')
+<?php
+    use App\Models\Option;
+?>
 
         <div class="row">
             <div class="col-md-12 grid-margin">
@@ -38,16 +41,16 @@
                                                 N<sup>o</sup>
                                             </th>
                                             <th>
-                                                Question text
+                                                QUESTION TEXT
                                             </th>
                                             <th>
-                                                Question type
+                                                QUESTION TYPE
                                             </th>
                                             <th>
-                                                Marks
+                                                MARKS
                                             </th>
                                             <th>
-                                                Action
+                                                OPTION
                                             </th>
                                                     
                                             </tr>
@@ -77,7 +80,16 @@
                                                     {{ $data->marks }}
                                                 </td>
                                                 <td class="py-1">
-                                                    <a class="btn btn-danger" href="{{url('admin/get_option')}}/{{ $data->id }}/{{ $exam_id }}">No option added yet</a>
+                                                    <?php
+                                                        $option=Option::all()->where('question_id',$data->id);
+                                                        $count_option=collect($option)->count();
+                                                    ?>
+                                                    @if($count_option == 0)
+                                                        <a class="btn btn-danger" href="{{url('admin/get_option')}}/{{ $data->id }}/{{ $exam_id }}">Not added yet &nbsp;&nbsp;&nbsp;<span class="badge badge-light">{{ $count_option }}</span> </a>
+                                                    @else
+                                                        <a class="btn btn-info" href="{{url('admin/get_singleOption_byQuestion')}}/{{ Crypt::encrypt($data->id) }}/{{ Crypt::encrypt($exam_id) }}/{{ Crypt::encrypt($course_name) }}" onclick="optionFunction('{{ $data->id }},{{ $data->question_text }}')">View options &nbsp;&nbsp;&nbsp;<span class="badge badge-light">{{ $count_option }}</span> </a>
+                                                    @endif
+                                                    
                                                 </td>
                                             </tr>
                                             
@@ -154,7 +166,6 @@
             </div>
           </div>
     <!--end modal of exam marks-->
-
     <script>
         setTimeout(() => {
             var msg=document.getElementById('error_msg');
