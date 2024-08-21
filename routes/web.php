@@ -82,5 +82,5 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::get('view/singleVideo/{id}',[UserController::class,'singleVideo'])->name('singleVideo');
     Route::get('get_result',[UserController::class,'get_result'])->name('get_result');
     Route::post('edit/inforamtion',[UserController::class,'edit_StudentInfo'])->name('EditStudentInfo');
-    
+    Route::get('user/download-result', [UserController::class, 'downloadResult'])->name('download.result');
 });

@@ -22,14 +22,12 @@ use App\Models\Result;
 use App\Models\Lesson;
 use App\Models\Certificate;
 use App\Models\Content;
-// use App\Models\DateTime;
 use App\Models\VideoLecture;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SheikhVerifyEmail;
 use Illuminate\Support\Facades\Crypt;
 use DateTime;
-
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -353,7 +351,7 @@ class UserController extends Controller
             'examTitle' => $exam->exam_name,
             'marks_got' => $totalMarks,
             'total_marks' => $exam->total_marks,
-            'message' => "Congratulations {$user->firstname} {$user->lastname}! You have successfully completed the exam '{$exam->exam_name}' with a score of {$totalMarks}/{$exam->total_marks}."
+            'message' => "Congratulations {$user_fname} {$user_lname}! You have successfully completed the exam '{$exam->exam_name}' with a score of {$totalMarks}/{$exam->total_marks}."
         ];
 
         $pdf = PDF::loadView('users.student.certificate', $data);
@@ -459,6 +457,50 @@ class UserController extends Controller
 
         return redirect()->back()->with('success','My information updated well !');
         
+    }
+
+    public function downloadResult()
+    {
+        $current_year = date('Y');
+        $user_id = auth()->guard('user')->user()->id;
+
+        // Fetch modules marks
+        $modules_marks = DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->join('results', 'exams.id', '=', 'results.exam_id')
+            ->select('results.*', 'course_name', 'exam_name', 'total_marks', 'total_score')
+            ->where('results.user_id', '=', $user_id)
+            ->get();
+
+        // Sum total scores
+        $sum_total_scores = DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->join('results', 'exams.id', '=', 'results.exam_id')
+            ->where('results.user_id', '=', $user_id)
+            ->sum('total_score');
+
+        // Sum total marks
+        $sum_total_marks = DB::table('courses')
+            ->join('exams', 'courses.id', '=', 'exams.course_id')
+            ->join('results', 'exams.id', '=', 'results.exam_id')
+            ->where('results.user_id', '=', $user_id)
+            ->sum('total_marks');
+
+        // Count result courses
+        $count_result_courses = $modules_marks->count();
+
+        // Calculate average marks
+        if ($count_result_courses > 0) {
+            $marks_got = ($sum_total_scores / $sum_total_marks) * 100;
+        } else {
+            $marks_got = 0; // Default value if no courses
+        }
+
+        // Generate PDF
+        $pdf = Pdf::loadView('users.student.result_slip_file', compact('current_year', 'modules_marks', 'sum_total_marks', 'sum_total_scores', 'marks_got'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download('result-slip.pdf');
     }
 
 }
