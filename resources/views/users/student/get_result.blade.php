@@ -93,9 +93,20 @@
                                 
                             </thead>
                         </table>
+
+
                     </div>
+
             
             </div>
+
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <button class="btn btn-info" style="width: 25%; margin: 20px;" onclick="window.location.href='{{ route('download.result') }}'">
+                    <i class="fa fa-download"></i>&nbsp;Download result
+                </button>
+            </div>
+
+
         </div>
         <div class="col-1 col-xl-1 mb-4 mb-xl-0"></div>
     </div>
