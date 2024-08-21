@@ -99,7 +99,7 @@
                     
                     <div class="card">
                         <div class="card-body">
-                            No video added yet , wait admin to add one !
+                            No video added yet , wait lecturer to add them !
                         </div>
                     </div>
                     
