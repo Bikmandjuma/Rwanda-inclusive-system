@@ -395,7 +395,7 @@ class AdminController extends Controller
         $marks_remain = $total_marks_counts - $current_marks_counts; // Correct calculation
     
         if ($new_marks > $total_marks_counts) {
-            return redirect()->back()->with('error_higher_amount', 'Only ' . $marks_remain . ' marks remain to reach the total of ' . $total_marks_counts . '!');
+            return redirect()->back()->with('error_higher_amount', 'Only ' . $marks_remain . ' marks remain to reach the total of ' . $total_marks_counts . ' !');
         } else {
             $question = new Question;
             $question->exam_id = $exam_id;

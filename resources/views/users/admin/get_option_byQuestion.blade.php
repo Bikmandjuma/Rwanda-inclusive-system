@@ -44,7 +44,7 @@
                                 <ul style="list-style-type:none;">
                                     <b style="font-size:20px;"><span class="text-info">Option {{$count_option++}}</span> : {{$data->option_text}}</b>
                                     @if ($data->is_correct == "True") 
-                                        <li style="margin-left:20px;">Real-answer: <span class="text-info" >{{$data->is_correct }}</span></li>
+                                        <li style="margin-left:20px;font-size:15px;"><b>Real-answer: <span class="text-info" >{{$data->is_correct }}</span></b></li>
                                     @else
                                         <li style="margin-left:20px;">Real-answer: <span class="text-danger">{{ $data->is_correct }}</span></li>
                                     @endif
