@@ -367,38 +367,78 @@ class UserController extends Controller
     }
 
     public function get_result(){
-        $current_year=date('Y');
+        // $current_year=date('Y');
+        // $user_id = auth()->guard('user')->user()->id;
+
+        // $modules_marks = DB::table('courses')
+        //     ->join('exams', 'courses.id', '=', 'exams.course_id')
+        //     ->join('results', 'exams.id', '=', 'results.exam_id')
+        //     ->select('results.*','course_name','exam_name','total_marks','total_score')
+        //     ->where([
+        //         ['results.user_id', '=', $user_id],
+        //     ])->get();
+
+        // $sum_total_scores = DB::table('courses')
+        //     ->join('exams', 'courses.id', '=', 'exams.course_id')
+        //     ->join('results', 'exams.id', '=', 'results.exam_id')
+        //     ->select('results.*','course_name','exam_name','total_marks','total_score')
+        //     ->where([
+        //         ['results.user_id', '=', $user_id],
+        //     ])->sum('total_score');
+
+        // $sum_total_marks = DB::table('courses')
+        //     ->join('exams', 'courses.id', '=', 'exams.course_id')
+        //     ->join('results', 'exams.id', '=', 'results.exam_id')
+        //     ->select('results.*','course_name','exam_name','total_marks','total_score')
+        //     ->where([
+        //         ['results.user_id', '=', $user_id],
+        //     ])->sum('total_marks');
+
+        //     $count_result_courses=collect($modules_marks)->count();
+
+        //     $marks_got=($sum_total_scores/$count_result_courses);
+        
+        // return view('users.student.get_result',compact('current_year','modules_marks','marks_got','sum_total_marks','sum_total_scores'));
+        $current_year = date('Y');
         $user_id = auth()->guard('user')->user()->id;
 
+        // Fetch modules marks
         $modules_marks = DB::table('courses')
             ->join('exams', 'courses.id', '=', 'exams.course_id')
             ->join('results', 'exams.id', '=', 'results.exam_id')
-            ->select('results.*','course_name','exam_name','total_marks','total_score')
-            ->where([
-                ['results.user_id', '=', $user_id],
-            ])->get();
+            ->select('results.*', 'course_name', 'exam_name', 'total_marks', 'total_score')
+            ->where('results.user_id', '=', $user_id)
+            ->get();
 
+        // Sum total scores
         $sum_total_scores = DB::table('courses')
             ->join('exams', 'courses.id', '=', 'exams.course_id')
             ->join('results', 'exams.id', '=', 'results.exam_id')
-            ->select('results.*','course_name','exam_name','total_marks','total_score')
-            ->where([
-                ['results.user_id', '=', $user_id],
-            ])->sum('total_score');
+            ->select('results.*', 'course_name', 'exam_name', 'total_marks', 'total_score')
+            ->where('results.user_id', '=', $user_id)
+            ->sum('total_score');
 
+        // Sum total marks
         $sum_total_marks = DB::table('courses')
             ->join('exams', 'courses.id', '=', 'exams.course_id')
             ->join('results', 'exams.id', '=', 'results.exam_id')
-            ->select('results.*','course_name','exam_name','total_marks','total_score')
-            ->where([
-                ['results.user_id', '=', $user_id],
-            ])->sum('total_marks');
+            ->select('results.*', 'course_name', 'exam_name', 'total_marks', 'total_score')
+            ->where('results.user_id', '=', $user_id)
+            ->sum('total_marks');
 
-            $count_result_courses=collect($modules_marks)->count();
+        // Count result courses
+        $count_result_courses = collect($modules_marks)->count();
 
-            $marks_got=($sum_total_scores/$count_result_courses);
-        
-        return view('users.student.get_result',compact('current_year','modules_marks','marks_got','sum_total_marks','sum_total_scores'));
+        // Check if $count_result_courses is greater than zero before division
+        if ($count_result_courses > 0) {
+            $marks_got = $sum_total_scores / $count_result_courses;
+        } else {
+            // Handle the case where $count_result_courses is zero
+            $marks_got = 0; // or set a different default value
+        }
+
+        return view('users.student.get_result', compact('current_year', 'modules_marks', 'marks_got', 'sum_total_marks', 'sum_total_scores'));
+
     }
 
     function edit_StudentInfo(Request $request){
