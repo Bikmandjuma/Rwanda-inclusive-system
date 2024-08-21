@@ -6,7 +6,7 @@
 
 <style>
     #done_exam_id{
-        box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow:0px 8px 16px 0px rgba(0,0,0,0.1);
     }
 </style>
     <div class="row">
@@ -69,19 +69,14 @@
                                     </button>
                                 @else
                                 <!-- onclick="confirmRedirectResult('{{ $result_id }}')" -->
-                                    <button class="btn btn-light text-info" id="done_exam_id" onclick="confirmRedirectResult('{{ $result_id }}')">
-
+                                    <button class="btn btn-light text-info" id="done_exam_id" onclick="confirmRedirectResult('{{ $result_id }}')" title="click to download a certificate">
                                         @if($marks_got < $half_marks)
-                                            Done <b><span class="text-danger">{{ $marks_got }}</span>/{{ $content->total_marks }}</b>
+                                            Done <b><span class="text-danger">{{ $marks_got }}</span>/{{ $content->total_marks }}</b>,Certifi..
                                         @else
-                                            Done <b>{{ $marks_got }}/{{ $content->total_marks }}</b>
+                                            Done <b>{{ $marks_got }}/{{ $content->total_marks }}</b>,Certifi..
                                         @endif
                                     </button>
                                 @endif
-
-
-                                
-                                
 
                             </div>
                         </div>

@@ -48,6 +48,9 @@
             <p>CLASS: ONLINE EXAM</p>
             <p>Name: {{ Auth::guard('user')->user()->firstname }} {{ Auth::guard('user')->user()->lastname }}</p>
         </div>
+        <br>
+        <p><b>www.rwandainclusivesystem.com</b></p>
+        <p><b>F.A </b>: formative assessment</p>
     </div>
 
     <br>

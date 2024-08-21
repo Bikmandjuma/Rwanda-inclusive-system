@@ -100,11 +100,17 @@
             
             </div>
 
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <button class="btn btn-info" style="width: 25%; margin: 20px;" onclick="window.location.href='{{ route('download.result') }}'">
-                    <i class="fa fa-download"></i>&nbsp;Download result
+            <div style="display: flex; align-items: center; justify-content: center;" id="download_btn" >
+                <button class="btn btn-info" style="width: 30%; margin: 20px;" onclick="window.location.href='{{ route('download.result') }}'">
+                    <i class="fa fa-download"></i>&nbsp;Download result slip
                 </button>
             </div>
+
+            @if($sum_total_marks == 0)
+                <script type="text/javascript">
+                    document.getElementById('download_btn').style.display="none";
+                </script>
+            @endif
 
 
         </div>

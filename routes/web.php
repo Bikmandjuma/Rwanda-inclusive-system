@@ -77,7 +77,9 @@ Route::group(['prefix'=>'user','middleware'=>'user'],function(){
     Route::post('post_take_exam/{id}',[UserController::class,'submitExam'])->name('post_take_exam');
     Route::get('Confirm_submit/{id}',[UserController::class,'confirmSubmit'])->name('confirm_submit');
     Route::post('post_confirm_submission/{id}',[UserController::class,'post_confirm_submission'])->name('post_confirm_submission');
-    Route::get('check_certificate/{id}', [UserController::class, 'generateCertificate'])->name('got_certificate');
+    // Route::get('check_certificate/{id}', [UserController::class, 'generateCertificate'])->name('got_certificate');
+    Route::get('check_certificate/{exam_id}', [UserController::class, 'generateCertificate'])->name('got_certificate');
+
     Route::get('studentDeleteAccount', [UserController::class, 'studentDeleteAccount'])->name('studentDeleteAccount');
     Route::get('view/singleVideo/{id}',[UserController::class,'singleVideo'])->name('singleVideo');
     Route::get('get_result',[UserController::class,'get_result'])->name('get_result');
