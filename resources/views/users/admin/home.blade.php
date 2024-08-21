@@ -1,5 +1,7 @@
 @extends('users.admin.cover')
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
         <div class="row">
             <div class="col-md-12 grid-margin">
@@ -14,17 +16,17 @@
           </div>
           <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
-              <div class="card" id="card_id">
-                <div class="card-body">
-                 <div class="d-flex justify-content-between">
-                  <p class="card-title">View analytics</p>
-                 </div>
-                  <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
-                  <canvas id="sales-chart"></canvas>
+                <div class="card" id="card_id">
+                  <div class="card-body">
+                   <div class="d-flex justify-content-between">
+                    <p class="card-title">Analytical graph</p>
+                   </div>
+                    <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                    <canvas id="analytic_graph"></canvas>
+                  </div>
                 </div>
               </div>
-            </div>
-            
+                      
             <div class="col-md-6 grid-margin transparent">
               <div class="row">
                 <div class="col-md-6 mb-4 stretch-card transparent">
@@ -89,6 +91,42 @@
               </div>
             </div>
           </div>
-          
+
+          <script>
+            var ctx = document.getElementById('analytic_graph').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',  // You can change this to 'line', 'pie', etc.
+                data: {
+                    labels: @json($provinces), // Provinces
+                    datasets: [{
+                        label: 'Average Score by Province',
+                        data: @json($averageScores), // Average scores for each province
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            enabled: true
+                        }
+                    }
+                }
+            });
+
+            // Optional: Add legend to the div with id="sales-legend"
+            document.getElementById('sales-legend').innerHTML = chart.generateLegend();
+        </script>
+                  
           
 @endsection

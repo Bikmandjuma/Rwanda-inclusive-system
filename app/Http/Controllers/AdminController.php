@@ -62,7 +62,17 @@ class AdminController extends Controller
         $Result_numbers=collect(Result::all())->count();
         // $Result_numbers=collect(ExamSubmission::all())->count();
 
-        return view('users.admin.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers'));
+        $results = DB::table('results')
+            ->join('users', 'results.user_id', '=', 'users.id')
+            ->select('users.province', DB::raw('AVG(results.total_score) as average_score'))
+            ->groupBy('users.province')
+            ->get();
+
+        // Convert data for the graph
+        $provinces = $results->pluck('province')->toArray();
+        $averageScores = $results->pluck('average_score')->toArray();
+
+        return view('users.admin.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers','provinces','averageScores'));
     }
 
     public function forgot_password(){

@@ -19,10 +19,22 @@
         </div>
     </div>
 
+    <div class="row mt-3">
+        <div class="col-3 col-xl-3 mb-4 mb-xl-0"></div>
+        <div class="col-6 col-xl-6 mb-4 mb-xl-0">
+            <div class="card" id="c_id">
+                <div class="card-body">
+                    <h3>No result found , <span class="text-primary" onclick="window.location.href='{{ url("user/exam_content") }}'">take test </span> first !</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 col-xl-3 mb-4 mb-xl-0"></div>
+    </div>
+
     <div class="row m-2">
         <div class="col-1 col-xl-1 mb-4 mb-xl-0"></div>
         <div class="col-10 col-xl-10 mb-4 mb-xl-0">
-            <div class="card" id="card_id">
+            <div class="card" id="card_id" >
                 <div class="card-header text-center">
                     <span style="font-size:20px;font-style:san-serif" class="text-primary">Result slip:</span>
                 </div>
