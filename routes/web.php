@@ -3,16 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\HomePageController;
 
 Route::get('/', function () {
     // return view('welcome');
@@ -20,11 +11,21 @@ Route::get('/', function () {
 
 });
 
+
 Route::get('login',[AdminController::class,'login_form'])->name('login.form');
 Route::get('forgot-password',[AdminController::class,'forgot_password'])->name('ForgotPasswordForm');
 Route::post('login-functionality',[AdminController::class,'login_functionality'])->name('login-functionality');
 Route::get('/student/registration',[UserController::class,'self_registration'])->name('self_registration');
 Route::post('PostRegistration',[UserController::class,'post_self_registration'])->name('post_self_registration');
+
+
+//start of homepage codes
+Route::get('/',[HomePageController::class,'home'])->name('home.page');
+Route::get('/about',[HomePageController::class,'about'])->name('about.page');
+Route::get('/courses',[HomePageController::class,'courses'])->name('courses.page');
+Route::get('/contact',[HomePageController::class,'contact'])->name('contact.page');
+//end of homepage codes
+
 
 Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::get('logout',[AdminController::class,'logout'])->name('logout');
