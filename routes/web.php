@@ -5,19 +5,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomePageController;
 
-Route::get('/', function () {
-    // return view('welcome');
+Route::get('/log', function () {
     return view('auth.login');
-
 });
-
 
 Route::get('login',[AdminController::class,'login_form'])->name('login.form');
 Route::get('forgot-password',[AdminController::class,'forgot_password'])->name('ForgotPasswordForm');
 Route::post('login-functionality',[AdminController::class,'login_functionality'])->name('login-functionality');
 Route::get('/student/registration',[UserController::class,'self_registration'])->name('self_registration');
 Route::post('PostRegistration',[UserController::class,'post_self_registration'])->name('post_self_registration');
-
 
 //start of homepage codes
 Route::get('/',[HomePageController::class,'home'])->name('home.page');
