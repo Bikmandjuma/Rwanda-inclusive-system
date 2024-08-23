@@ -51,12 +51,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ route('home.page') }}" class="nav-item nav-link active">Home</a>
-                <a href="{{ route('about.page') }}" class="nav-item nav-link">About</a>
-                <a href="{{ route('courses.page') }}" class="nav-item nav-link">Courses</a>
-                <a href="{{ route('contact.page') }}" class="nav-item nav-link">Contact</a>
+                <a href="{{ route('home.page') }}" class="nav-item nav-link {{ Request::segment('1') == '' ? 'active' : ''}}">Home</a>
+                <a href="{{ route('about.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'about' ? 'active' : ''}}">About</a>
+                <a href="{{ route('courses.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'courses' ? 'active' : ''}}">Courses</a>
+                <a href="{{ route('contact.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'contact' ? 'active' : ''}}">Contact</a>
             </div>
-            <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{{ route('login.form') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -90,22 +90,22 @@
                     <h4 class="text-white mb-3">Gallery</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="{{ URL::to('/') }}/homePage/img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-1.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="{{ URL::to('/') }}/homePage/img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-2.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="{{ URL::to('/') }}/homePage/img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-3.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="{{ URL::to('/') }}/homePage/img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-2.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="{{ URL::to('/') }}/homePage/img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-3.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="{{ URL::to('/') }}/homePage/img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-1.jpg" alt="">
                         </div>
                     </div>
                 </div>
