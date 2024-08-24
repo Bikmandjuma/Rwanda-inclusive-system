@@ -54,7 +54,7 @@
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="{{ route('home.page') }}" class="nav-item nav-link {{ Request::segment('1') == '' ? 'active' : ''}}">Home</a>
                 <a href="{{ route('about.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'about' ? 'active' : ''}}">About</a>
-                <a href="{{ route('courses.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'courses' ? 'active' : ''}}">Courses</a>
+                <!-- <a href="{{ route('courses.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'courses' ? 'active' : ''}}">Courses</a> -->
                 <a href="{{ route('contact.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'contact' ? 'active' : ''}}">Contact</a>
             </div>
             <a href="{{ route('login.form') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block" target="parent">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
@@ -91,23 +91,17 @@
                     <h4 class="text-white mb-3">Gallery</h4>
                     <div class="row g-2 pt-2">
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-1.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/kigali.jpeg" alt="">
+                        </div>
+                        
+                        
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/bg_1.jpg" alt="">
                         </div>
                         <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-2.jpg" alt="">
+                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/bg_2.jpg" alt="">
                         </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="{{ URL::to('/') }}/homePage/img/course-1.jpg" alt="">
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
