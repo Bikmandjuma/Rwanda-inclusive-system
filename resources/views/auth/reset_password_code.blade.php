@@ -13,14 +13,14 @@
 				    </div>
 	              <h5 class="card-title text-center mt-3">Reset code here !</h5>
 	              @if(session('valid_code'))
-	              	<p class="alert alert-success">
+	              	<p class="alert alert-success text-center">
 	              		{{ session('valid_code') }}
 	              	</p>
 	              	<script type="text/javascript">
 	              		setTimeout(function(){
 	              			window.location.href="{{ url('reset/password/') }}/{{ Crypt::encrypt($email) }}/{{ Crypt::encrypt($code) }}";
-	              			document.getElementById('spin_id').style.display="block"
-	              		},5000);
+	              			document.getElementById('spin_id').style.display="block";
+	              		},3000);
 	              	</script>
 	              @endif
 
@@ -32,7 +32,7 @@
 
 	             
 	              <!-- No Labels Form -->
-	              <form class="row g-3" action="{{ url('codeCheck')}}/{{$email}}/{{$code}}" method="POST">
+	              <form class="row g-3" action="{{ url('codeCheck')}}/{{$email}}/{{$code}}" method="POST" id="hide_form">
 	              	@csrf
 	          
 	                <div class="col-md-6">
@@ -46,7 +46,7 @@
 	                </div>
 	                <div class="col-md-6">
 	                  <label>Code</label>
-	                  <input type="number" name="code" class="form-control" placeholder="Enter code">
+	                  <input type="number" name="code" class="form-control" placeholder="Enter code"  @if(session('valid_code') == 'The code is valid !') disabled @endif>
 	                    @error('code')
 						    <p style="color:Red;">
 						        {{ $message }}

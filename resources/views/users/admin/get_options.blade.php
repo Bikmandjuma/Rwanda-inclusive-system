@@ -78,8 +78,7 @@
                                     </div>
                                 </div>
                                 
-                                <button type="button" id="add-option" class="btn btn-secondary mt-2">Add Option</button>
-
+                                <button type="button" id="add-option" class="btn btn-secondary mt-2"><i class="mdi mdi-plus" style="margin-top:4px;"></i>  Add Option</button>
 
                                 <br>
 

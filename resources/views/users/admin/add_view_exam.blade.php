@@ -50,15 +50,19 @@
                                             @endphp
                                             @foreach($marks_data as $data)
                                             <tr>
+
                                                 <td class="py-3">
                                                     {{ $count++ }}
                                                 </td>
+
                                                 <td class="py-1">
                                                     {{ $data->course_name }}
                                                 </td>
+
                                                 <td class="py-1">
                                                     {{ $data->exam_name }}
                                                 </td>
+
                                                 <td class="py-1">
                                                     {{ $data->total_marks }}
                                                 </td>
@@ -68,7 +72,7 @@
                                                         $question=Question::all()->where('exam_id',$data->id);
                                                         $count_question=collect($question)->count();
                                                     ?>
-                                                    <a class="btn btn-info" href="{{ url('admin/get_question')}}/{{Crypt::encrypt($data->exam_id)}}/{{Crypt::encrypt($data->course_name)}}" >View questions &nbsp;&nbsp;&nbsp;<span class="badge badge-light">{{$count_question}}</span> </a>
+                                                    <a class="btn btn-info" href="{{ url('admin/get_question')}}/{{Crypt::encrypt($data->exam_id)}}/{{Crypt::encrypt($data->course_name)}}/{{ Crypt::encrypt($data->total_marks) }}" >View questions &nbsp;&nbsp;&nbsp;<span class="badge badge-light">{{$count_question}}</span> </a>
                                                 </td>
 
                                             </tr>

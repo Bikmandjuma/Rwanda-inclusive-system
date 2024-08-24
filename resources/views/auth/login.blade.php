@@ -38,24 +38,24 @@
 
                 @if (session('password_reseted'))
                     <div>
-                        <ul class="alert alert-success" id="disable_message">
-                            <li>{{ session('password_reseted') }}</li>
+                        <ul class="alert alert-success text-center" id="disable_message">
+                            <li style="list-style-type: none;">{{ session('password_reseted') }}</li>
                         </ul>
                     </div>
                 @endif
        
-                <form class="pt-3" action="{{route('login-functionality')}}" method="POST">
+               <form class="pt-3" action="{{ route('login-functionality') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Enter email" name="username" value="{{old('username')}}" aufocus>
+                    <input type="text" class="form-control" placeholder="Enter email or username" name="username" value="{{ old('username') }}" autofocus>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" id="pswd_id" name="password" placeholder="Enter password">
-                  <i class="mdi mdi-eye float-right" style="margin-top:-35px;font-size:25px;display:none;padding-right:10px;" id="eye_pswd"></i>
-                  <i class="mdi mdi-eye-off float-right" style="margin-top:-35px;font-size:25px;padding-right:10px;" id="eye_pswd_off"></i>
+                    <input type="password" class="form-control" id="pswd_id" name="password" placeholder="Enter password">
+                    <i class="mdi mdi-eye float-right" style="margin-top:-35px;font-size:25px;display:none;padding-right:10px;" id="eye_pswd"></i>
+                    <i class="mdi mdi-eye-off float-right" style="margin-top:-35px;font-size:25px;padding-right:10px;" id="eye_pswd_off"></i>
                 </div>
                 <div class="mt-3 text-center">
-                  <button type="submit" class="btn btn-primary btn-md font-weight-medium">SIGN IN</button>
+                    <button type="submit" class="btn btn-primary btn-md font-weight-medium">SIGN IN</button>
                 </div>
                 
                 <div class="text-center mt-4 font-weight-light">

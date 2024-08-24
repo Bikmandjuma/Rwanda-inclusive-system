@@ -41,14 +41,45 @@ class AdminController extends Controller
             'password'=>'required|string',
         ]);
 
-        if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect()->route('dashboard');
-        }elseif (Auth::guard('user')->attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect()->route('user_dashboard');
-        }else{
-            Session::flash('error-message','Invalid Email or Password');
-            return back();
-        }
+        // if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password]) || Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+        //     return redirect()->route('dashboard');
+
+        // } elseif (Auth::guard('user')->attempt(['username' => $request->username, 'password' => $request->password]) || Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+        //     return redirect()->route('user_dashboard');
+
+        // }else{
+        //     Session::flash('error-message','Invalid Email or Password');
+        //     return back();
+        // }
+
+            $credentials = $request->only('username', 'password');
+
+            // Determine if the input is an email or a username
+            $loginType = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+            $admin =Admin::where('username', $request->username)
+                ->orWhere('email', $request->username) // Check both email and username
+                ->first();
+
+            if ($admin && Hash::check($request->password, $admin->password)) {
+                // Manually log in the admin
+                Auth::guard('admin')->login($admin);
+                return redirect()->route('dashboard');
+            }
+
+            // Attempt login for user
+            elseif (Auth::guard('user')->attempt([$loginType => $credentials['username'], 'password' => $credentials['password']])) {
+                return redirect()->route('user_dashboard');
+            }
+
+            // If login fails
+            else {
+                Session::flash('error-message', 'Invalid Email or Password');
+                return back()->withInput(); // return with input to show entered values
+            }
+
 
     }
 
@@ -366,9 +397,10 @@ class AdminController extends Controller
         
     }
 
-    public function get_question($id,$name){
+    public function get_question($id,$name,$marks){
         $course_name=Crypt::decrypt($name);
         $exam_id=Crypt::decrypt($id);
+        $total_marks=Crypt::decrypt($marks);
 
         $question_data=Question::all()->where('exam_id',$exam_id);
 
@@ -381,7 +413,7 @@ class AdminController extends Controller
             ->sum('marks');
             
 
-        return view('users.admin.get_question',compact('question_data','exam_id','course_name','count_question_data','marks_counts'));
+        return view('users.admin.get_question',compact('question_data','exam_id','course_name','count_question_data','marks_counts','total_marks'));
     }
     
 

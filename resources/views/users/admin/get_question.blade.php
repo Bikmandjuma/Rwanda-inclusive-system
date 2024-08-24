@@ -96,7 +96,7 @@
                                             @endforeach
                                             <tr id="ttl_marks_id">
                                                 <td colspan="3" class="text-center"><b>Total marks</b></td>
-                                                <td><b><span class="text-primary">{{ $marks_counts}}</span> / 100</b></td>
+                                                <td><b><span class="text-primary">{{ $marks_counts}}</span> / {{ $total_marks }}</b></td>
                                                 <td class="text-center">. . .</td>
                                             </tr>
 
@@ -122,14 +122,13 @@
             </div>
         </div>
 
-        @if($marks_counts == 100)
+        @if($marks_counts == $total_marks)
             <Style>
                 #add_btn_id{
                     display:none;
                 }
             </style>
         @endif
-
 
     <!--start modal of exam marks-->
     <div class="modal" id="Modalquesdtion" tabindex="-1" role="dialog" aria-hidden="true"  style="margin-top:45px;">
