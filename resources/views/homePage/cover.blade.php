@@ -44,7 +44,8 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="{{ route('home.page') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>{{ config('app.name','laravel') }}</h2>
+            <!-- <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>{{ config('app.name','laravel') }}</h2> -->
+            <img class="img-fluid p-1" src="{{ URL::to('/') }}/homePage/img/logo.jpeg" alt="" width="200" height="40"> 
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -56,7 +57,7 @@
                 <a href="{{ route('courses.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'courses' ? 'active' : ''}}">Courses</a>
                 <a href="{{ route('contact.page') }}" class="nav-item nav-link {{ Request::segment('1') == 'contact' ? 'active' : ''}}">Contact</a>
             </div>
-            <a href="{{ route('login.form') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            <a href="{{ route('login.form') }}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block" target="parent">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
@@ -111,7 +112,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <p>Stay informed with the latest updates from Rwanda Inclusive System! Subscribe to our newsletter and be the first to know about new courses, special offers, and educational resources.</p>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
                         <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>

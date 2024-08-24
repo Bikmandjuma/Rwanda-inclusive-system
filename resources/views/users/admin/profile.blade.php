@@ -93,7 +93,7 @@ img:hover{
                             </div>
                             <div class="modal-body">
                               <div class="actionsBtns">
-                                <form enctype="multipart/form-data" method="POST" action="{{ route('post_profile')}}">
+                                <form enctype="multipart/form-data" method="POST" action="{{ route('admin_post_profile')}}">
                                   @csrf
                                   <!-- <div class="row">
                                     <div class="col-md-6"> -->

@@ -7,15 +7,14 @@
           #eye_pswd:hover{
             cursor:pointer;
           }
-
-          
         </style>
     <div class="row w-100 mx-0">
       <div class="col-lg-4 mx-auto">
 
         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo align-items-center text-center">
-                <img src="{{ URL::to('/') }}/style/images/logo.png" alt="logo">
+                <!-- <img src="{{ URL::to('/') }}/style/images/logo.png" alt="logo"> -->
+                <img class="img-fluid p-1" src="{{ URL::to('/') }}/homePage/img/logo.jpeg" alt="" width="200" height="40"> 
               </div>
               <h6 class="font-weight-light text-center">Sign in to continue.</h6>
       
@@ -37,10 +36,10 @@
                     <!-- </div> -->
                 @endif
 
-                @if (session('well_login'))
+                @if (session('password_reseted'))
                     <div>
                         <ul class="alert alert-success" id="disable_message">
-                            <li>{{ session('well_login') }}</li>
+                            <li>{{ session('password_reseted') }}</li>
                         </ul>
                     </div>
                 @endif

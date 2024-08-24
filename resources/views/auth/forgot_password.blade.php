@@ -5,13 +5,31 @@
 
         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo align-items-center text-center">
-                <img src="{{ URL::to('/') }}/style/images/logo.png" alt="logo">
+                <!-- <img src="{{ URL::to('/') }}/style/images/logo.png" alt="logo"> -->
+                <img class="img-fluid p-1" src="{{ URL::to('/') }}/homePage/img/logo.jpeg" alt="" width="200" height="40"> 
+
               </div>
               <h6 class="font-weight-light text-center">Forgot password .</h6>
-              <form class="pt-3">
-                
+              <form class="pt-3" method="POST" action="{{ route('submit.forgot.password') }}">
+                @csrf
+                @if ($errors->any())
+                    <!-- <div > -->
+                        <ul class="alert alert-danger text-center" id="disable_message">
+                            @foreach ($errors->all() as $error)
+                                <li style='list-style-type: none;'>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    <!-- </div> -->
+                @endif
+
+                @if(session('message_sent'))
+                    <ul class="alert alert-info text-center" id="disable_message">
+                        <li style='list-style-type: none;'>{{ session('message_sent') }}</li>
+                    </ul>
+                @endif
+
                 <div class="form-group">
-                  <input type="email" class="form-control form-control" id="exampleInputEmail1" placeholder="Enter Email" aufocus>
+                  <input type="email" class="form-control form-control" id="exampleInputEmail1" placeholder="Enter Email" name="email" aufocus>
                 </div>
 
                 <div class="mt-3 text-center">

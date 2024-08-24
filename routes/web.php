@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/log', function () {
     return view('auth.login');
@@ -14,6 +15,12 @@ Route::get('forgot-password',[AdminController::class,'forgot_password'])->name('
 Route::post('login-functionality',[AdminController::class,'login_functionality'])->name('login-functionality');
 Route::get('/student/registration',[UserController::class,'self_registration'])->name('self_registration');
 Route::post('PostRegistration',[UserController::class,'post_self_registration'])->name('post_self_registration');
+Route::post('submit_form_pswd',[AuthController::class,'submit_forgot_password'])->name('submit.forgot.password');
+Route::get('reset/password/code/{email}/{code}',[AuthController::class,'reset_password_code']);
+Route::post('codeCheck/{email}/{code}',[AuthController::class,'codeCheck'])->name('codeCheck');
+Route::get('reset/password/{email}/{code}',[AuthController::class,'resetPassword'])->name('resetPassword');
+Route::post('submit/reset/password/{email}/{code}',[AuthController::class,'submitResetPassword'])->name('submitResetPassword');
+
 
 //start of homepage codes
 Route::get('/',[HomePageController::class,'home'])->name('home.page');
