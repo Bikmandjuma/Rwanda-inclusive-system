@@ -25,6 +25,7 @@ use App\Models\Content;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SheikhVerifyEmail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
 {
@@ -40,19 +41,6 @@ class AdminController extends Controller
             'username'=>'required|string',
             'password'=>'required|string',
         ]);
-
-        // if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password]) || Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
-
-        //     return redirect()->route('dashboard');
-
-        // } elseif (Auth::guard('user')->attempt(['username' => $request->username, 'password' => $request->password]) || Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
-
-        //     return redirect()->route('user_dashboard');
-
-        // }else{
-        //     Session::flash('error-message','Invalid Email or Password');
-        //     return back();
-        // }
 
             $credentials = $request->only('username', 'password');
 
@@ -93,17 +81,79 @@ class AdminController extends Controller
         $Result_numbers=collect(Result::all())->count();
         // $Result_numbers=collect(ExamSubmission::all())->count();
 
-        $results = DB::table('results')
+        // Data for Marks vs. Provinces
+        $marksByProvinces = DB::table('results')
             ->join('users', 'results.user_id', '=', 'users.id')
             ->select('users.province', DB::raw('AVG(results.total_score) as average_score'))
             ->groupBy('users.province')
             ->get();
 
-        // Convert data for the graph
-        $provinces = $results->pluck('province')->toArray();
-        $averageScores = $results->pluck('average_score')->toArray();
+        $provinces = $marksByProvinces->pluck('province')->toArray();
+        $averageScores = $marksByProvinces->pluck('average_score')->toArray();
 
-        return view('users.admin.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers','provinces','averageScores'));
+        // Data for User Counts by Time Period
+        $now = Carbon::now();
+
+        // Define time periods
+        $periods = [
+            '1 day ago' => $now->copy()->subDay(),
+            '2 days ago' => $now->copy()->subDays(2),
+            '3 days ago' => $now->copy()->subDays(3),
+            '4 days ago' => $now->copy()->subDays(4),
+            '5 days ago' => $now->copy()->subDays(5),
+            '6 days ago' => $now->copy()->subDays(6),
+            '7 days ago' => $now->copy()->subDays(7),
+        ];
+
+        // Generate query for the last 7 days
+        $userCountsByDay = DB::table('users')
+            ->select(DB::raw("CASE 
+                WHEN created_at >= ? THEN '1 day ago'
+                WHEN created_at >= ? THEN '2 days ago'
+                WHEN created_at >= ? THEN '3 days ago'
+                WHEN created_at >= ? THEN '4 days ago'
+                WHEN created_at >= ? THEN '5 days ago'
+                WHEN created_at >= ? THEN '6 days ago'
+                WHEN created_at >= ? THEN '7 days ago'
+                ELSE 'More than 7 days ago'
+            END AS period"), DB::raw('COUNT(*) as user_count'))
+            ->setBindings(array_values($periods))
+            ->groupBy('period')
+            ->orderByRaw("FIELD(period, '1 day ago', '2 days ago', '3 days ago', '4 days ago', '5 days ago', '6 days ago', '7 days ago', 'More than 7 days ago')")
+            ->get();
+
+        $periodLabels = $userCountsByDay->pluck('period')->toArray();
+        $userCounts = $userCountsByDay->pluck('user_count')->toArray();
+
+        // Prepare for weeks data
+        $userCountsByWeek = DB::table('users')
+            ->select(DB::raw("CASE 
+                WHEN created_at >= ? THEN '1 week ago'
+                WHEN created_at >= ? THEN '2 weeks ago'
+                WHEN created_at >= ? THEN '3 weeks ago'
+                WHEN created_at >= ? THEN '4 weeks ago'
+                WHEN created_at >= ? THEN '5 weeks ago'
+                WHEN created_at >= ? THEN '6 weeks ago'
+                WHEN created_at >= ? THEN '7 weeks ago'
+                WHEN created_at >= ? THEN '8 weeks ago'
+                WHEN created_at >= ? THEN '9 weeks ago'
+                WHEN created_at >= ? THEN '10 weeks ago'
+                ELSE CONCAT(ROUND(DATEDIFF(NOW(), created_at) / 7), ' weeks ago')
+            END AS period"), DB::raw('COUNT(*) as user_count'))
+            ->setBindings([
+                $now->copy()->subWeek(), $now->copy()->subWeeks(2), $now->copy()->subWeeks(3),
+                $now->copy()->subWeeks(4), $now->copy()->subWeeks(5), $now->copy()->subWeeks(6),
+                $now->copy()->subWeeks(7), $now->copy()->subWeeks(8), $now->copy()->subWeeks(9),
+                $now->copy()->subWeeks(10)
+            ])
+            ->groupBy('period')
+            ->orderByRaw("FIELD(period, '1 week ago', '2 weeks ago', '3 weeks ago', '4 weeks ago', '5 weeks ago', '6 weeks ago', '7 weeks ago', '8 weeks ago', '9 weeks ago', '10 weeks ago')")
+            ->get();
+
+        $weekLabels = $userCountsByWeek->pluck('period')->toArray();
+        $weekCounts = $userCountsByWeek->pluck('user_count')->toArray();
+
+        return view('users.admin.home',compact('users_numbers','Exam_numbers','Content_numbers','Course_numbers','Certificate_numbers','Result_numbers','provinces', 'averageScores', 'periodLabels', 'userCounts', 'weekLabels', 'weekCounts'));
     }
 
     public function forgot_password(){

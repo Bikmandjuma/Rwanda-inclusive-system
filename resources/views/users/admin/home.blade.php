@@ -16,7 +16,7 @@
           </div>
           <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
-                <div class="card" id="card_id">
+               <!--  <div class="card" id="card_id">
                   <div class="card-body">
                    <div class="d-flex justify-content-between">
                     <p class="card-title">Analytical graph</p>
@@ -24,7 +24,26 @@
                     <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
                     <canvas id="analytic_graph"></canvas>
                   </div>
+                </div> -->
+
+                <div class="card">
+                  
+                  <div class="container mt-5">
+                      <div class="form-group">
+                          <select id="graph-type" class="form-control">
+                              <option value="marks-by-province">Marks vs. Provinces</option>
+                              <option value="user-counts-by-day">User Counts by Days</option>
+                              <option value="user-counts-by-week">User Counts by Weeks</option>
+                          </select>
+                      </div>
+
+                      <div id="graph-container">
+                          <canvas id="data-chart"></canvas>
+                      </div>
+                  </div>
+
                 </div>
+
               </div>
                       
             <div class="col-md-6 grid-margin transparent">
@@ -92,7 +111,7 @@
             </div>
           </div>
 
-          <script>
+          <!-- <script>
             var ctx = document.getElementById('analytic_graph').getContext('2d');
             var chart = new Chart(ctx, {
                 type: 'bar',  // You can change this to 'line', 'pie', etc.
@@ -126,7 +145,121 @@
 
             // Optional: Add legend to the div with id="sales-legend"
             document.getElementById('sales-legend').innerHTML = chart.generateLegend();
-        </script>
+        </script> -->
+
+        <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  var ctx = document.getElementById('data-chart').getContext('2d');
+                  var chart;
+
+                  function updateChart(type) {
+                      if (chart) {
+                          chart.destroy();
+                      }
+
+                      if (type === 'marks-by-province') {
+                          chart = new Chart(ctx, {
+                              type: 'bar',
+                              data: {
+                                  labels: @json($provinces),
+                                  datasets: [{
+                                      label: 'Average Score by Province',
+                                      data: @json($averageScores),
+                                      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                      borderColor: 'rgba(75, 192, 192, 1)',
+                                      borderWidth: 1
+                                  }]
+                              },
+                              options: {
+                                  scales: {
+                                      y: {
+                                          beginAtZero: true,
+                                          suggestedMax: 100 // Ensure the max value is set to 100
+                                      }
+                                  },
+                                  plugins: {
+                                      legend: {
+                                          display: true,
+                                          position: 'top'
+                                      },
+                                      tooltip: {
+                                          enabled: true
+                                      }
+                                  }
+                              }
+                          });
+                      } else if (type === 'user-counts-by-day') {
+                          chart = new Chart(ctx, {
+                              type: 'bar',
+                              data: {
+                                  labels: @json($periodLabels),
+                                  datasets: [{
+                                      label: 'Number of Users Created',
+                                      data: @json($userCounts),
+                                      backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                      borderColor: 'rgba(153, 102, 255, 1)',
+                                      borderWidth: 1
+                                  }]
+                              },
+                              options: {
+                                  scales: {
+                                      y: {
+                                          beginAtZero: true,
+                                          suggestedMax: 10 // Ensure the max value is set to 10
+                                      }
+                                  },
+                                  plugins: {
+                                      legend: {
+                                          display: true,
+                                          position: 'top'
+                                      },
+                                      tooltip: {
+                                          enabled: true
+                                      }
+                                  }
+                              }
+                          });
+                      } else if (type === 'user-counts-by-week') {
+                          chart = new Chart(ctx, {
+                              type: 'bar',
+                              data: {
+                                  labels: @json($weekLabels),
+                                  datasets: [{
+                                      label: 'Number of Users Created',
+                                      data: @json($weekCounts),
+                                      backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                      borderColor: 'rgba(255, 159, 64, 1)',
+                                      borderWidth: 1
+                                  }]
+                              },
+                              options: {
+                                  scales: {
+                                      y: {
+                                          beginAtZero: true
+                                      }
+                                  },
+                                  plugins: {
+                                      legend: {
+                                          display: true,
+                                          position: 'top'
+                                      },
+                                      tooltip: {
+                                          enabled: true
+                                      }
+                                  }
+                              }
+                          });
+                      }
+                  }
+
+                  document.getElementById('graph-type').addEventListener('change', function() {
+                      updateChart(this.value);
+                  });
+
+                  // Initialize with the default chart type
+                  updateChart('marks-by-province');
+              });
+          </script>
                   
           
 @endsection
