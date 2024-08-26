@@ -682,4 +682,12 @@ class AdminController extends Controller
         return redirect()->back()->with('success','My information updated well !');
     }
 
+    function student_grade(){
+        $student_list=User::paginate(5);
+        $student_list_data=User::all();
+        $student_list_count=collect($student_list_data)->count();
+                
+        return view('users.admin.student_grade',compact('student_list','student_list_count'));
+    }
+
 }

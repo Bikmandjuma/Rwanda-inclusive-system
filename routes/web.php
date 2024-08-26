@@ -61,7 +61,7 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
     Route::post('post/video-lecture',[AdminController::class,'post_video_lecture_content'])->name('post-video-lecture-content');
     Route::get('get_singleOption_byQuestion/{question_id}/{exam_id}/{course_name}',[AdminController::class,'get_singleOption_byQuestion'])->name('get_option_byQuestion_name');
     Route::post('edit/information',[AdminController::class,'editAdminInfo'])->name('EditAdminInfo');
-    
+    Route::get('student/grade',[AdminController::class,'student_grade'])->name('student_grade');
 });
 
 //routes codes of user/students

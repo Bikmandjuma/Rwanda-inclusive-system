@@ -167,7 +167,10 @@
             </a>
             <div class="collapse" id="student">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ route('view_student') }}">Students</a></li>
+
+                <li class="nav-item"> <a class="nav-link" href="{{ route('student_grade') }}">Students grades</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('view_student') }}">Students result slip</a></li>
+                
               </ul>
             </div>
           </li>
